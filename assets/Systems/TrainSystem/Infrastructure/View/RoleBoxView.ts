@@ -15,39 +15,51 @@ export class RoleBoxView extends Component {
     @property(Node)
     Info:Node
 
+    private CallBack:(RoleID:string)=>void=null;
 
-    private BoxID:string;
+    private BoxID:string="null";
 
-    init(x:number,y:number,BoxID:string,callBack:()=>void){
-        this.setPosition(x,y);
-        this.setBoxID(BoxID);
-        this.setCallBack(callBack);
-    }
-
+    //初始化位置
     setPosition(x:number,y:number){
         this.node.setPosition(x,y);
+    }
+
+    //回调相关
+    setBoxInfo(BoxID:string,callBack:(RoleID:string)=>void){
+        // this.setPosition(x,y);
+        this.setBoxID(BoxID);
+        this.setCallBack(callBack);
     }
 
     setBoxID(BoxID:string){
         this.BoxID=BoxID;
     }
 
-    setCallBack(callback:()=>void){
-        this.onClick=callback;
+    setCallBack(callback:(RoleID:string)=>void){
+        this.CallBack=callback;
     }
 
+    onClick(){
+        console.log("回调函数执行:"+this.BoxID);
+        if(this.CallBack!=null){
+            this.CallBack(this.BoxID);
+        }
+    }
+
+
+    //同步格子信息数据
     syncData(RoleData:{Name:string,level:number}){
         this.Name.getComponent(Label).string=RoleData.Name;
         this.Info.getComponent(Label).string="等级:"+RoleData.level;
     }
 
-
+    //设置点击监听
     start() {
-        this.node.on(Node.EventType.TOUCH_END,this.onClick,this);
+        this.addListener();
     }
 
-    onClick(){
-        console.log("回调函数执行:"+this.BoxID);
+    addListener(){
+        this.node.on(Node.EventType.TOUCH_END,this.onClick,this);
     }
 
 }

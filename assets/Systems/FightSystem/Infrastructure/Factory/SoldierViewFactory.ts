@@ -1,17 +1,17 @@
 
-import {Node} from "cc"
-import { SoldierView } from "../View/SoldierView";
+// import {Node} from "cc"
+// import { SoldierView } from "../View/SoldierView";
 
-export class SoldierViewFactory{
+// export class SoldierViewFactory{
 
-    constructor(
-        private SoldierNode:Node,
-    ){
+//     constructor(
+//         private SoldierNode:Node,
+//     ){
 
-    }
+//     }
 
-    get(){
-        const view = this.SoldierNode.getComponent(SoldierView);
-        return view;
-    }
-}
+//     get(){
+//         const view = this.SoldierNode.getComponent(SoldierView);
+//         return view;
+//     }
+// }
