@@ -10,4 +10,4 @@ export * from "./View/EnemyView"
 export * from "./View/SoldierView"
 
 export * from "./CollisionDispatcher"
-export * from "./PoolManager"
+export * from "../../Infrastructure/Pool/PoolManager"

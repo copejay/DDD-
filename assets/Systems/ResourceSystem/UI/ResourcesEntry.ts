@@ -1,5 +1,5 @@
 import { _decorator, Component, Node } from 'cc';
-import { Event } from 'cc';
+// import { Event } from 'cc';
 const { ccclass, property } = _decorator;
 
 import { ResourceApp } from '../Application/ResourceApp';
@@ -7,7 +7,7 @@ import { ResourceApp } from '../Application/ResourceApp';
 import { PrefabNode } from './PrefabNode';
 
 //全局事件总线
-import { GlobalEventBus } from '../../EventBus';
+// import { GlobalEventBus } from '../../EventBus';
 // import { ResourcesEventType } from '../../EventType';
 
 @ccclass('ResourcesEntry')
