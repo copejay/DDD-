@@ -22,8 +22,8 @@ export class RoleBoxManager{
     }
 
 
-
-    //创建角色框板
+    //内部依赖的意识是，直接使用类内部的属性
+    //内部依赖：创建角色框板
     CreateRoleBoxBoard(BoxNum:number){
         this.RoleBoxList=this.MakeRoleBoxList(BoxNum);
         const RoleBoxSiteList=this.MakeBoxSiteList(BoxNum);
@@ -39,7 +39,25 @@ export class RoleBoxManager{
         }
     }
 
+    //内部依赖：销毁角色框板
+    DestroyRoleBoxBoard(){
+        this.RecycleRoleBoxList(this.RoleBoxList);
+        this.RoleBoxList=[];
+    }
 
+    //内部依赖：同步角色框列表
+    syncRoleBoxList(RoleInfoList){
+        for(let i=0;i<this.RoleBoxList.length;i++){
+            let RoleBox=this.RoleBoxList[i];
+            let RoleInfo=RoleInfoList[i];
+            RoleBox.syncName(RoleInfo.name);
+            RoleBox.syncLevel(RoleInfo.level);
+        }
+    }
+
+
+    //纯处理的意思不直接使用类内部的属性，而是根据参数进行处理
+    //纯处理
     //创建角色视图列表
     MakeRoleBoxList(BoxNum:number){
         let RoleBoxList=[];
@@ -50,16 +68,26 @@ export class RoleBoxManager{
         return RoleBoxList;
     }
 
+    // //内部依赖：同步角色框列表
+    // syncRoleBoxList(RoleInfoList){
+    //     for(let i=0;i<this.RoleBoxList.length;i++){
+    //         let RoleBox=this.RoleBoxList[i];
+    //         let RoleInfo=RoleInfoList[i];
+    //         RoleBox.syncName(RoleInfo.name);
+    //         RoleBox.syncLevel(RoleInfo.level);
+    //     }
+    // }
 
+    //纯处理：回收角色框列表
     RecycleRoleBoxList(RoleBoxList:[]){
         for(let i=0;i<RoleBoxList.length;i++){
-            let RoleBox=this.RoleBoxList[i];
+            let RoleBox=RoleBoxList[i];
             this.RoleBoxFactory.recycle(RoleBox);
             // RoleBox.Recycle();
         }
     }
 
-
+    //纯处理
     //创建角色格子的位置列表
     MakeBoxSiteList(BoxNum:number){
         let BoxSiteList=[];

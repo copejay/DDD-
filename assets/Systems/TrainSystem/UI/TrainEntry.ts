@@ -7,6 +7,9 @@ import { RolePanel } from './Common/RolePanel';
 import { RoleBoxManager } from './RoleBoxManager';
 import { RolePanelManager } from './RolePanelManager';
 
+//引入管理层
+import { TrainApplication } from '../Application/TrainApplication';
+
 @ccclass('TrainEntry')
 export class TrainEntry extends Component {
     
@@ -32,17 +35,32 @@ export class TrainEntry extends Component {
 
     RolePanelManager:RolePanelManager=null;
 
+    //管理层
+    TrainApplication:TrainApplication;
+
 
     start() {
+        //初始化管理层
+        this.TrainApplication=TrainApplication.instance;
         //初始化UI里面的角色列表管理
         this.RoleBoxManager=new RoleBoxManager(this.RoleBoxBoardPrefab,this.RoleBoxBoardParentNode,this.RoleBoxClickCallBack);
-        //创建角色列表
-        this.initRoleBoxManager(38);
-        //根据内容重新进行适配
-        this.resetContentLength();
+
+        //注入UI引用
+        this.TrainApplication.initUI(this);
 
         //初始化弹窗管理器，弹窗一开始是隐藏的
         this.RolePanelManager=new RolePanelManager(this.RolePanel.getComponent(RolePanel));
+        
+        //告诉App，UI已经初始化完成
+        this.TrainApplication.UILoadOver();
+
+        // //创建角色列表
+        // this.initRoleBoxManager(38);
+        // //根据内容重新进行适配
+        // this.resetContentLength();
+
+        // //初始化弹窗管理器，弹窗一开始是隐藏的
+        // this.RolePanelManager=new RolePanelManager(this.RolePanel.getComponent(RolePanel));
     }
 
 
@@ -51,13 +69,34 @@ export class TrainEntry extends Component {
         this.RolePanelManager.ShowRolePanel(RoleID);
     }
 
+
+    //管理显示视图
+    createRoleBoxBoard(RoleInfo){
+        //创建固定数量角色框板
+        this.initRoleBoxManager(RoleInfo.length);
+        //根据信息同步框里的信息
+        this.syncRoleBoxList(RoleInfo);
+        //根据内容重新进行content适配，滑动栏适配
+        this.resetContentLength();
+    }
+    //*以下是子行为*//
+    //销毁旧的角色框板
+    destroyRoleBoxBoard(){
+        this.RoleBoxManager.DestroyRoleBoxBoard();
+    }
+    //初始化角色框数量
     initRoleBoxManager(BoxNum:number){
         this.RoleBoxManager.CreateRoleBoxBoard(BoxNum);
     }
-
+    //根据信息同步框里的信息
+    syncRoleBoxList(RoleInfoList){
+        this.RoleBoxManager.syncRoleBoxList(RoleInfoList);
+    }
+    //根据框的长度，调整内容长度，方便滑动
     resetContentLength(){
         this.ContentNode.getComponent(UITransform).setContentSize(600,this.RoleBoxManager.RoleBoxTotalLength);
     }
+    //*
 
 
     update(deltaTime: number) {

@@ -1,6 +1,6 @@
 
 
-export type ResourcesPoolType={
-    gold:number;
-    food:number;
-}
+// export type ResourcesPoolType={
+//     gold:number;
+//     food:number;
+// }

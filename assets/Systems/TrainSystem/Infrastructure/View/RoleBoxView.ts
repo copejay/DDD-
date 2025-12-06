@@ -46,6 +46,13 @@ export class RoleBoxView extends Component {
         }
     }
 
+    syncName(Name:string){
+        this.Name.getComponent(Label).string=Name;
+    }
+
+    syncLevel(level:number){
+        this.Info.getComponent(Label).string="等级:"+level;
+    }
 
     //同步格子信息数据
     syncData(RoleData:{Name:string,level:number}){

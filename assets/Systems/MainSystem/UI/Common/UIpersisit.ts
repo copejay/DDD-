@@ -1,11 +1,23 @@
-import { _decorator, Component, Node,director, Director,find} from 'cc';
+import { _decorator, Component, Node,director, Director,find, CCInteger} from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('UIpersist')
 export class UIpersist extends Component {
+
+    @property({type:CCInteger,tooltip:"优先级，1最低，9最高"})
+    PersistLevel:number;
+
+    // private PersistNum:number=1;
+
     onLoad(){
         // director.addPersistRootNode(this.node);//经过实验，这里加不加载无所谓
     }
+
+    // changePersistNum{
+    //     if(this.PersistLevel===9){
+
+    //     }
+    // }
 
     start() {
   
@@ -23,7 +35,14 @@ export class UIpersist extends Component {
         const newCanvas=find("Canvas");
       
         if(newCanvas){
-            newCanvas.insertChild(this.node,newCanvas.children.length);
+            if(this.PersistLevel===9){
+                newCanvas.insertChild(this.node,newCanvas.children.length);
+            }else if(this.PersistLevel===1){
+                newCanvas.insertChild(this.node,2);
+            }else{
+            newCanvas.insertChild(this.node,2);
+            }
+            //newCanvas.children.length
         }
     }
 
