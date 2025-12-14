@@ -6,9 +6,7 @@ import { ResourceApp } from '../Application/ResourceApp';
 //接收预制体的字节点
 import { PrefabNode } from './PrefabNode';
 
-//全局事件总线
-// import { GlobalEventBus } from '../../EventBus';
-// import { ResourcesEventType } from '../../EventType';
+
 
 @ccclass('ResourcesEntry')
 export class ResourcesEntry extends Component {

@@ -5,6 +5,8 @@ import { DataBaseService } from "../../GlobalService";
 
 import { ResourceApp } from "../../ResourceSystem/Application/ResourceApp";
 
+import { HintPopApp } from "../../HintPopSystem/Application/HintPopApp";
+
 export class GachaApplication{
 
     private static _instance:GachaApplication;
@@ -35,6 +37,7 @@ export class GachaApplication{
         if(Gold<500){
             // this.GachaPopUI.showErrorPop();
             console.log("金币不足");
+            HintPopApp.instance.createHintPop("【金币不足】");
             return;
         }else{
             this.DataBaseService.addGold(-500);

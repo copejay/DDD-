@@ -34,10 +34,7 @@ export class ResourceApp{
     //初始化UI代表着这个视图层开始了
     //需要第一时间进行同步更新
     initUI(ui){
-        // this.DataBaseService=DataBaseService.instance;
         this.UI=ui;
-        // this.UI.syncGoldUI(this.DataBaseService.getGold());
-        // this.UI.syncFoodUI(this.DataBaseService.getFood());
         this.syncUI();
     }
 

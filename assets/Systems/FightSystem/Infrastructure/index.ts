@@ -1,13 +1,9 @@
 
 
-// export * from "./Factory/BulletViewFactory"
-// export * from "./Factory/PlaneViewFactory"
-// export * from "./Factory/EnemyViewFactory"
+export { FightRoleFactory } from "./Factory/FightRoleFactory";
+export { FloatingTextFactory } from "./Factory/FloatingTextFactory";
+export { FightBoxFactory } from "./Factory/FightBoxFactory";
 
-// export * from "./View/BulletView"
-// // export * from "./View/PlaneView"
-// export * from "./View/EnemyView"
-// export * from "./View/SoldierView"
 
-// export * from "./CollisionDispatcher"
-// export * from "../../Infrastructure/Pool/PoolManager"
+export * from './View/FightRoleView';
+export * from './View/FloatingTextView';

@@ -15,7 +15,7 @@ export class RoleChild{
     }
 
     getRole(RoleID:string){
-        if(!this.SaveRole.checkExist(RoleID)){
+        if(this.SaveRole.checkExist(RoleID)===false){
             console.log("RoleChild:RoleID not exist");
             return {
                 id: "null",

@@ -18,7 +18,7 @@ export class SaveRole{
     }
 
     checkExist(RoleID:string){
-        this.GameDB.roles.exists(RoleID);
+        return this.GameDB.roles.exists(RoleID);
     }
 
     getRole(RoleID:string){

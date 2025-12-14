@@ -1,17 +1,19 @@
 // GameDB.ts
 import { Table } from './Table';
 import { SaveService } from './SaveService';
-import { RoleRow, RoleSchema, ItemRow, ItemSchema } from './GameTypes';
+import { RoleRow, RoleSchema, ItemRow, ItemSchema ,WeaponRow,WeaponSchema} from './GameTypes';
 
 export interface GameDBRaw {
     roles?: { [id: string]: RoleRow };
     items?: { [id: string]: ItemRow };
+    weapons?: { [id: string]: WeaponRow };
     // 以后可以继续加其它表：skills / tasks / mails ...
 }
 
 export class GameDB {
     readonly roles: Table<RoleRow>;
     readonly items: Table<ItemRow>;
+    readonly weapons: Table<WeaponRow>;
 
     constructor(raw?: GameDBRaw) {
         //RoleRow是用来约束每个row的输入
@@ -19,6 +21,7 @@ export class GameDB {
         //这两个配合起来，在编译时检查一次，再使用过程中又会进行检测
         this.roles = new Table<RoleRow>('roles', RoleSchema, raw?.roles);
         this.items = new Table<ItemRow>('items', ItemSchema, raw?.items);
+        this.weapons = new Table<WeaponRow>('weapons', WeaponSchema, raw?.weapons);
     }
 
     // 导出成可序列化的纯数据，用于存档
@@ -26,6 +29,7 @@ export class GameDB {
         return {
             roles: this.roles.export(),
             items: this.items.export(),
+            weapons: this.weapons.export(),
         };
     }
 

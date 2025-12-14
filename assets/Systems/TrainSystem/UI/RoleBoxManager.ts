@@ -21,6 +21,10 @@ export class RoleBoxManager{
         this.ClickCallBack=ClickCallBack;
     }
 
+    CreateBoxBoard(RoleInfoList){
+        this.CreateRoleBoxBoard(RoleInfoList.length);
+        this.syncRoleBoxList(RoleInfoList);
+    }
 
     //内部依赖的意识是，直接使用类内部的属性
     //内部依赖：创建角色框板
@@ -32,10 +36,10 @@ export class RoleBoxManager{
             let BoxSite=RoleBoxSiteList[i];
             RoleBox.setPosition(BoxSite.x,BoxSite.y);
             // console.log(`RoleBoxManager:创建第${i}个哈吉米`);
-            RoleBox.setBoxInfo(`RoleBox${i}`,(RoleID:string)=>{
-                console.log(`RoleBoxManager:点击了编号${RoleID}哈吉米`);
-                this.ClickCallBack(RoleID);
-            });
+            // RoleBox.setBoxInfo(`RoleBox${i}`,(RoleID:string)=>{
+            //     console.log(`RoleBoxManager:点击了编号${RoleID}哈吉米`);
+            //     this.ClickCallBack(RoleID);
+            // });
         }
     }
 
@@ -52,6 +56,10 @@ export class RoleBoxManager{
             let RoleInfo=RoleInfoList[i];
             RoleBox.syncName(RoleInfo.name);
             RoleBox.syncLevel(RoleInfo.level);
+            //对每一个格子设置回调，调用回调，唤起角色弹窗，传入点击角色id
+            RoleBox.setBoxInfo(RoleInfo.id,(RoleID)=>{
+                this.ClickCallBack(RoleID);
+            });
         }
     }
 

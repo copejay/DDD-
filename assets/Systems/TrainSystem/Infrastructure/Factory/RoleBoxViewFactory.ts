@@ -2,7 +2,8 @@ import { _decorator, Component, Node } from 'cc';
 import {Prefab} from 'cc';
 // const { ccclass, property } = _decorator;
 
-import { PoolManager } from '../../../Infrastructure';
+// import { PoolManager } from '../../../Infrastructure';
+import { PoolManager } from '../../../GlobalService';
 import { RoleBoxView } from "../View/RoleBoxView"
 
 

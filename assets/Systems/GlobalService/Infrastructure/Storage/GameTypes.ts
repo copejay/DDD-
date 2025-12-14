@@ -29,3 +29,21 @@ export const ItemSchema: Schema<ItemRow> = {
     name:  { type: 'string' },
     count: { type: 'number' },
 };
+
+
+export interface WeaponRow{
+    id:string;
+    archiveTime:number;
+    name:string;
+    info:string;
+
+    level:number;
+}
+
+export const WeaponSchema: Schema<WeaponRow> = {
+    id:        { type: 'string' },
+    archiveTime: { type: 'number' },
+    name:      { type: 'string' },
+    info:      { type: 'string' },
+    level:     { type: 'number' },
+};

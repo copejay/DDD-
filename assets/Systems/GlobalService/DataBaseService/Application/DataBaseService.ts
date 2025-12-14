@@ -3,8 +3,12 @@ import { GameDBService } from "../../Infrastructure/Storage/GameDBService";
 
 import { ItemChild } from "./ItemChild";
 import { RoleChild } from "./RoleChild";
+import { WeaponChild } from "./WeaponChild";
 
 import { RoleRow } from "../..";
+import { WeaponRow } from "../..";
+
+
 
 export class DataBaseService{
 
@@ -21,6 +25,7 @@ export class DataBaseService{
 
     private ItemChild;
     private RoleChild;
+    private WeaponChild;
 
     //初始化传入数据库引用
     constructor(){
@@ -35,6 +40,7 @@ export class DataBaseService{
     initChild(){
         this.ItemChild=new ItemChild(this.GameDB);
         this.RoleChild=new RoleChild(this.GameDB);
+        this.WeaponChild=new WeaponChild(this.GameDB);
     }
 
 
@@ -64,5 +70,16 @@ export class DataBaseService{
     }
     setRole(Role:RoleRow){
         this.RoleChild.saveRole(Role);
+    }
+
+    //武器数据接口
+    getWeapon(WeaponID:string){
+        return this.WeaponChild.getWeapon(WeaponID);
+    }
+    getAllWeapon(){
+        return this.WeaponChild.getAllWeapon();
+    }
+    setWeapon(Weapon:WeaponRow){
+        this.WeaponChild.saveWeapon(Weapon);
     }
 }
