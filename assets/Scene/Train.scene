@@ -234,8 +234,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 651,
-      "height": 1502
+      "width": 689,
+      "height": 1536
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -265,7 +265,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "cae862c2-7112-4c1d-908c-a4346a7f95c4@f9941",
+      "__uuid__": "2f1ec2f4-3f45-44be-8ef5-2f86bb8c2ba2@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -615,7 +615,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": -100,
       "z": 0
     },
     "_lrot": {
@@ -821,7 +821,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 12,
-      "height": 1000
+      "height": 800
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -970,7 +970,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 480,
+      "y": 400,
       "z": 0
     },
     "_lrot": {
@@ -1176,7 +1176,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 600,
-      "height": 1000
+      "height": 800
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1321,7 +1321,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 600,
-      "height": 1300
+      "height": 1000
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1343,7 +1343,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 600,
-      "height": 1000
+      "height": 800
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2561,7 +2561,7 @@
       "__uuid__": "26aed91d-d72f-4979-9390-554f1ebf86ce",
       "__expectedType__": "cc.Prefab"
     },
-    "fileId": "1davVL299A6ZrccUU9V9Nn",
+    "fileId": "50/TjDOxpLX6F0DfgkWwAv",
     "instance": {
       "__id__": 74
     },
@@ -2570,7 +2570,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "92EJpEygtPY7e9OClkK0ji",
+    "fileId": "94JSBPmypDB4L23lEJXOHz",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -2603,7 +2603,7 @@
   {
     "__type__": "cc.TargetInfo",
     "localID": [
-      "1davVL299A6ZrccUU9V9Nn"
+      "50/TjDOxpLX6F0DfgkWwAv"
     ]
   },
   {

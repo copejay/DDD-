@@ -37,13 +37,13 @@ export class ChildItemPanel{
     openItemPanel(ItemID:string){
         this.createItemPanelData(ItemID);
 
-        this.ItemPanelUI.showItemPanel();
-        this.ItemPanelUI.syncItemInfo(this.ItemPanelData.ItemName,this.ItemPanelData.ItemLevel,this.ItemPanelData.ItemExp);
+        this.ItemPanelUI.open();
+        this.ItemPanelUI.syncInfo(this.ItemPanelData);
     }
 
 
     getItemInfoByID(ItemID:string){
-        return this.DataBaseService.getItem(ItemID);
+        return this.DataBaseService.getStackItem(ItemID);
     }
 
 }

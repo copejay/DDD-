@@ -47,3 +47,14 @@ export const WeaponSchema: Schema<WeaponRow> = {
     info:      { type: 'string' },
     level:     { type: 'number' },
 };
+
+
+export interface StackItemRow{
+    id:string;
+    count:number;
+}
+
+export const StackItemSchema: Schema<StackItemRow> = {
+    id: { type: 'string' },
+    count:  { type: 'number' },
+}

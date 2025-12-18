@@ -33,6 +33,7 @@ export class GachaApplication{
     }
 
     GachaOne(){
+        // console.log("GachaApp： 抽奖一次！");
         const Gold=this.DataBaseService.getGold();
         if(Gold<500){
             // this.GachaPopUI.showErrorPop();

@@ -4,9 +4,11 @@ import { GameDBService } from "../../Infrastructure/Storage/GameDBService";
 import { ItemChild } from "./ItemChild";
 import { RoleChild } from "./RoleChild";
 import { WeaponChild } from "./WeaponChild";
+import { StackItemChild } from "./StackItemChild";
 
 import { RoleRow } from "../..";
 import { WeaponRow } from "../..";
+import { StackItemRow } from "../..";
 
 
 
@@ -26,6 +28,7 @@ export class DataBaseService{
     private ItemChild;
     private RoleChild;
     private WeaponChild;
+    private StackItemChild;
 
     //初始化传入数据库引用
     constructor(){
@@ -41,6 +44,7 @@ export class DataBaseService{
         this.ItemChild=new ItemChild(this.GameDB);
         this.RoleChild=new RoleChild(this.GameDB);
         this.WeaponChild=new WeaponChild(this.GameDB);
+        this.StackItemChild=new StackItemChild(this.GameDB);
     }
 
 
@@ -81,5 +85,16 @@ export class DataBaseService{
     }
     setWeapon(Weapon:WeaponRow){
         this.WeaponChild.saveWeapon(Weapon);
+    }
+
+    //栈式物品数据接口
+    getStackItem(StackItemID:string){
+        return this.StackItemChild.getOne(StackItemID);
+    }
+    getAllStackItem(){
+        return this.StackItemChild.getAll();
+    }
+    setStackItem(StackItem:StackItemRow){
+        this.StackItemChild.set(StackItem.id,StackItem.count);
     }
 }

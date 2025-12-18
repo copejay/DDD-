@@ -5,98 +5,94 @@ import { Prefab ,Node} from 'cc';
 
 export class RoleBoxManager{
 
-    private RoleBoxFactory:RoleBoxViewFactory;
+    private BoxFactory:RoleBoxViewFactory;
     private ParentNode:Node;
 
-    private RoleBoxList;
+    private BoxList;
 
-    RoleBoxTotalLength:number=0;
+    BoxTotalLength:number=0;
 
-    ClickCallBack:(RoleID:string)=>void=null;
+    //孙格子-通信回调
+    ClickCallBack:(ShopItemID:string)=>void=null;
 
-    
-    constructor(RoleBoxViewPrefab:Prefab,ParentNode:Node,ClickCallBack:(RoleID:string)=>void){
-        this.RoleBoxFactory=new RoleBoxViewFactory(RoleBoxViewPrefab);
+    //初始注入，拿到需要的组件
+    constructor(Prefab:Prefab,ParentNode:Node,ClickCallBack:(ShopItemID:string)=>void){
+        this.BoxFactory=new RoleBoxViewFactory(Prefab);
         this.ParentNode=ParentNode;
         this.ClickCallBack=ClickCallBack;
     }
 
-    CreateBoxBoard(RoleInfoList){
-        this.CreateRoleBoxBoard(RoleInfoList.length);
-        this.syncRoleBoxList(RoleInfoList);
+    //创建板子
+    CreateBoxBoard(ShopItemInfoList){
+        this.CreateShopBoxBoard(ShopItemInfoList.length);
+        this.syncBoxList(ShopItemInfoList);
     }
 
-    //内部依赖的意识是，直接使用类内部的属性
-    //内部依赖：创建角色框板
-    CreateRoleBoxBoard(BoxNum:number){
-        this.RoleBoxList=this.MakeRoleBoxList(BoxNum);
-        const RoleBoxSiteList=this.MakeBoxSiteList(BoxNum);
-        for(let i=0;i<this.RoleBoxList.length;i++){
-            let RoleBox=this.RoleBoxList[i];
-            let BoxSite=RoleBoxSiteList[i];
-            RoleBox.setPosition(BoxSite.x,BoxSite.y);
-            // console.log(`RoleBoxManager:创建第${i}个哈吉米`);
-            // RoleBox.setBoxInfo(`RoleBox${i}`,(RoleID:string)=>{
-            //     console.log(`RoleBoxManager:点击了编号${RoleID}哈吉米`);
-            //     this.ClickCallBack(RoleID);
-            // });
+    //创建视图板子
+    CreateShopBoxBoard(BoxNum:number){
+        this.BoxList=this.MakeBoxList(BoxNum);
+        const BoxSiteList=this.MakeBoxSiteList(BoxNum);
+        for(let i=0;i<this.BoxList.length;i++){
+            let Box=this.BoxList[i];
+            let BoxSite=BoxSiteList[i];
+            Box.setPosition(BoxSite.x,BoxSite.y);
         }
     }
+    //视图板子同步信息
+    syncBoxList(InfoList){
+        for(let i=0;i<this.BoxList.length;i++){
+            let Box=this.BoxList[i];
+            let Info=InfoList[i];
 
-    //内部依赖：销毁角色框板
-    DestroyRoleBoxBoard(){
-        this.RecycleRoleBoxList(this.RoleBoxList);
-        this.RoleBoxList=[];
-    }
-
-    //内部依赖：同步角色框列表
-    syncRoleBoxList(RoleInfoList){
-        for(let i=0;i<this.RoleBoxList.length;i++){
-            let RoleBox=this.RoleBoxList[i];
-            let RoleInfo=RoleInfoList[i];
-            RoleBox.syncName(RoleInfo.name);
-            RoleBox.syncLevel(RoleInfo.level);
+            Box.syncName(Info.name);
+            Box.syncLevel(Info.level);
             //对每一个格子设置回调，调用回调，唤起角色弹窗，传入点击角色id
-            RoleBox.setBoxInfo(RoleInfo.id,(RoleID)=>{
-                this.ClickCallBack(RoleID);
+            Box.setBoxInfo(Info.id,(ID)=>{
+                this.ClickCallBack(ID);
             });
         }
     }
 
 
-    //纯处理的意思不直接使用类内部的属性，而是根据参数进行处理
-    //纯处理
-    //创建角色视图列表
-    MakeRoleBoxList(BoxNum:number){
-        let RoleBoxList=[];
+
+    //销毁角色框板
+    DestroyBoxBoard(){
+        this.RecycleBoxList(this.BoxList);
+        this.BoxList=[];
+    }
+    //创建视图列表
+    MakeBoxList(BoxNum:number){
+        let BoxList=[];
         for(let i=0;i<BoxNum;i++){
-            let RoleBox=this.RoleBoxFactory.getRoleBoxView(this.ParentNode);
-            RoleBoxList.push(RoleBox);
+            let Box=this.BoxFactory.getView(this.ParentNode);
+            BoxList.push(Box);
         }
-        return RoleBoxList;
+        return BoxList;
     }
-
-    // //内部依赖：同步角色框列表
-    // syncRoleBoxList(RoleInfoList){
-    //     for(let i=0;i<this.RoleBoxList.length;i++){
-    //         let RoleBox=this.RoleBoxList[i];
-    //         let RoleInfo=RoleInfoList[i];
-    //         RoleBox.syncName(RoleInfo.name);
-    //         RoleBox.syncLevel(RoleInfo.level);
+    //调用工厂进行回收
+    RecycleBoxList(BoxList:[]){
+        for(let i=0;i<BoxList.length;i++){
+            let Box=BoxList[i];
+            this.BoxFactory.recycle(Box);
+        }
+    }
+    //创建位置列表
+    // MakeBoxSiteList(BoxNum:number){
+    //     let BoxSiteList=[];
+    //     let level=0;//排列层级
+    //     for(let i=0;i<BoxNum;i++){
+    //         if(i%3==0){//每3个为一层
+    //             level++;
+    //         }
+    //         let BoxSite={
+    //             x:(i%3)*250+70,
+    //             y:(level-1)*-150,
+    //         }
+    //         BoxSiteList.push(BoxSite);
+    //         this.BoxTotalLength=150*level+100;
     //     }
+    //     return BoxSiteList;
     // }
-
-    //纯处理：回收角色框列表
-    RecycleRoleBoxList(RoleBoxList:[]){
-        for(let i=0;i<RoleBoxList.length;i++){
-            let RoleBox=RoleBoxList[i];
-            this.RoleBoxFactory.recycle(RoleBox);
-            // RoleBox.Recycle();
-        }
-    }
-
-    //纯处理
-    //创建角色格子的位置列表
     MakeBoxSiteList(BoxNum:number){
         let BoxSiteList=[];
         let level=0;//排列层级
@@ -109,7 +105,7 @@ export class RoleBoxManager{
                 y:(level-1)*-150,
             }
             BoxSiteList.push(BoxSite);
-            this.RoleBoxTotalLength=150*level+300;
+            this.BoxTotalLength=150*level+700;
         }
         return BoxSiteList;
     }

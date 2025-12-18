@@ -37,6 +37,7 @@ export class ResourcesEntry extends Component {
     }
 
     start(){
+        console.log("ResourcesEntry: start开始");
         this.ResourceApp=ResourceApp.instance;
         this.ResourceApp.initUI(this);
     }

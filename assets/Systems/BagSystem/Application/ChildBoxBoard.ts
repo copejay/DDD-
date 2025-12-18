@@ -13,14 +13,27 @@ export class ChildBoxBoard{
     }
 
     //同步物品
-    syncBagItem(){
+    syncBagItem(type){
         //初始化物品信息列表
-        let ItemInfoList=this.getItemInfoList();
-        this.BagEntryUI.createItemBoxBoard(ItemInfoList);
+        if(type=="Item"){
+            let ItemInfoList=this.getItemInfoList();
+            this.BagEntryUI.createItemBoxBoard(ItemInfoList);
+        }else if(type=="Weapon"){
+            let WeaponInfoList=this.getWeaponInfoList();
+            this.BagEntryUI.createWeaponBoxBoard(WeaponInfoList);
+        }
+        // console.log("BagApp-ChildBoxBoard: 同步物品",ItemInfoList);
+        // this.BagEntryUI.createItemBoxBoard(ItemInfoList);
+    }
+
+
+
+    getWeaponInfoList(){
+        return this.DataBaseService.getAllWeapon();
     }
 
     getItemInfoList(){
-        return this.DataBaseService.getAllWeapon();
+        return this.DataBaseService.getAllStackItem();
     }
 
 }

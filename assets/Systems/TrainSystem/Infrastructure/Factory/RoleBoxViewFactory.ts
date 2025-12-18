@@ -1,37 +1,32 @@
 import { _decorator, Component, Node } from 'cc';
 import {Prefab} from 'cc';
-// const { ccclass, property } = _decorator;
 
-// import { PoolManager } from '../../../Infrastructure';
 import { PoolManager } from '../../../GlobalService';
 import { RoleBoxView } from "../View/RoleBoxView"
 
 
 export class RoleBoxViewFactory{
 
-
-    // @property(Prefab)
-    // RoleBoxViewPrefab:Prefab;
-    constructor(RoleBoxViewPrefab:Prefab){
-        this.RoleBoxViewPrefab=RoleBoxViewPrefab;
+    constructor(Prefab:Prefab){
+        this.Prefab=Prefab;
         this.PoolManager=PoolManager.instance;
     }
 
-    RoleBoxViewPrefab:Prefab;
+    Prefab:Prefab;
     PoolManager:PoolManager;
 
     start() {
         this.PoolManager=PoolManager.instance;
     }
 
-    getRoleBoxView(ParentNode:Node){
-        let RoleBoxViewNode=this.PoolManager.get(this.RoleBoxViewPrefab,ParentNode);
-        let myRoleBoxView=RoleBoxViewNode.getComponent(RoleBoxView);
-        return myRoleBoxView;
+    getView(ParentNode:Node){
+        let RoleBoxViewNode=this.PoolManager.get(this.Prefab,ParentNode);
+        let View=RoleBoxViewNode.getComponent(RoleBoxView);
+        return View;
     }
 
-    recycle(RoleBoxView:RoleBoxView){
-        this.PoolManager.put(RoleBoxView.node);
+    recycle(View:RoleBoxView){
+        this.PoolManager.put(View.node);
     }
 
     update(deltaTime: number) {

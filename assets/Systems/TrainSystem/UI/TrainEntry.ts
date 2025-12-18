@@ -4,7 +4,7 @@ const { ccclass, property } = _decorator;
 
 import { RolePanelEntry } from './Common/RolePanelEntry';
 
-import { RoleBoxManager } from './RoleBoxManager';
+import {RoleBoxManager } from './RoleBoxManager';
 
 //引入管理层
 import { TrainApplication } from '../Application/TrainApplication';
@@ -70,11 +70,11 @@ export class TrainEntry extends Component {
     }
     //销毁旧的角色框板
     destroyRoleBoxBoard(){
-        this.RoleBoxManager.DestroyRoleBoxBoard();
+        this.RoleBoxManager.DestroyBoxBoard();
     }
     //根据框的长度，调整内容长度，方便滑动
     resetContentLength(){
-        this.ContentNode.getComponent(UITransform).setContentSize(600,this.RoleBoxManager.RoleBoxTotalLength);
+        this.ContentNode.getComponent(UITransform).setContentSize(600,this.RoleBoxManager.BoxTotalLength);
     }
 
 

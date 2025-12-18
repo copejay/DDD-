@@ -32,18 +32,15 @@
       },
       {
         "__id__": 12
-      },
-      {
-        "__id__": 14
       }
     ],
     "_prefab": {
-      "__id__": 16
+      "__id__": 14
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 93.059,
-      "y": -583.086,
+      "x": -49.712,
+      "y": -572.914,
       "z": 0
     },
     "_lrot": {
@@ -92,8 +89,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": -2.214,
+      "y": -41.679,
       "z": 0
     },
     "_lrot": {
@@ -145,7 +142,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "f5I3TDJYxPEq9GLVIr8Oab"
+    "fileId": "ebuQoHrQ5A6Zg1966zV8qs"
   },
   {
     "__type__": "cc.Label",
@@ -165,15 +162,15 @@
     "_color": {
       "__type__": "cc.Color",
       "r": 0,
-      "g": 0,
-      "b": 0,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
-    "_string": "出征",
+    "_string": "宝库",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 30,
-    "_fontSize": 30,
+    "_actualFontSize": 18,
+    "_fontSize": 18,
     "_fontFamily": "Arial",
     "_lineHeight": 0,
     "_overflow": 1,
@@ -213,7 +210,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "cbj/UlcXlPPpn8jMQ0p4U8"
+    "fileId": "139a5TdFhNzZnSZO66Vtoy"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -223,7 +220,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "56/Hs/4jJDN6Iw4PquJuwV",
+    "fileId": "fey+WZXPJLJrSQh1UC+AVk",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -242,8 +239,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 160,
-      "height": 70
+      "width": 60,
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -254,7 +251,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "fdDu7jJ5tGvob2Au8SmBpG"
+    "fileId": "65x22vI8tJfZiBULpayHWh"
   },
   {
     "__type__": "cc.Sprite",
@@ -279,7 +276,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "ea4c7625-ed3b-4186-a9c2-65a52fa25118@f9941",
+      "__uuid__": "2dfc5dae-4973-41cd-a2a3-73bc64220561@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 1,
@@ -299,77 +296,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "6cs0Pr6+ZAP7du/zcdVvgH"
-  },
-  {
-    "__type__": "cc.Button",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 13
-    },
-    "clickEvents": [],
-    "_interactable": true,
-    "_transition": 2,
-    "_normalColor": {
-      "__type__": "cc.Color",
-      "r": 214,
-      "g": 214,
-      "b": 214,
-      "a": 255
-    },
-    "_hoverColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "_pressedColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_disabledColor": {
-      "__type__": "cc.Color",
-      "r": 124,
-      "g": 124,
-      "b": 124,
-      "a": 255
-    },
-    "_normalSprite": {
-      "__uuid__": "ea4c7625-ed3b-4186-a9c2-65a52fa25118@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "_hoverSprite": {
-      "__uuid__": "ea4c7625-ed3b-4186-a9c2-65a52fa25118@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "_pressedSprite": {
-      "__uuid__": "ea4c7625-ed3b-4186-a9c2-65a52fa25118@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "_disabledSprite": {
-      "__uuid__": "951249e0-9f16-456d-8b85-a6ca954da16b@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "_duration": 0.1,
-    "_zoomScale": 1.2,
-    "_target": {
-      "__id__": 1
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "886xtEjb5MIIaJvnY9VIwv"
+    "fileId": "9agyYqzXJC+YaKK1ZDpR9d"
   },
   {
     "__type__": "60716QObmlHwpI/ihaR8YQQ",
@@ -381,14 +308,14 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 15
+      "__id__": 13
     },
-    "SceneName": "Fight",
+    "SceneName": "Bag",
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "011giD/pNEhrT0gOL9HB5p"
+    "fileId": "9af9tF4lNPyYEdGkqnPqCX"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -398,7 +325,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "547dBwdANPjrs/J9l6sj7N",
+    "fileId": "2dXq5MRj1EQJA1OqQItah6",
     "targetOverrides": null
   }
 ]

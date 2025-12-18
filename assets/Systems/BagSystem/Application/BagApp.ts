@@ -6,6 +6,7 @@ import { ItemPanelData } from "../Domain/ItemPanelData";
 
 import { ChildItemPanel } from "./ChildItemPanel";
 import { ChildBoxBoard } from "./ChildBoxBoard";
+import { ChildWeaponPanel } from "./ChildWeaponPanel";
 
 export class BagApp{
 
@@ -24,9 +25,12 @@ export class BagApp{
 
     //全局数据服务
     private DataBaseService:DataBaseService;
+    //
+    private BagType="Item";
     //训练界面UI
     private BagEntryUI=null;
     private ItemPanelUI=null;
+    private WeaponPanelUI=null;
 
     //数据体
     private ItemPanelData:ItemPanelData;
@@ -34,16 +38,36 @@ export class BagApp{
     //子类
     private ChildItemPanel:ChildItemPanel;
     private ChildBoxBoard:ChildBoxBoard;
+    private ChildWeaponPanel:ChildWeaponPanel;
 
 
+
+    // clickWeaponBox(WeaponID:string){
+    //     console.log("BagApplication: 点击武器框",WeaponID);
+    //     this.ChildWeaponPanel.openWeaponPanel(WeaponID);
+    // }
     //提供给外部调用的方法
     clickItemBox(ItemID:string){
         console.log("BagApplication: 点击角色框",ItemID);
         this.ChildItemPanel.openItemPanel(ItemID);
     }
+    clickWeaponBox(WeaponID:string){
+        console.log("BagApplication: 点击武器框",WeaponID);
+        this.ChildWeaponPanel.openWeaponPanel(WeaponID);
+    }
+
     UILoadOver(){
         console.log("BagApplication: UI 加载完毕");
-        this.ChildBoxBoard.syncBagItem();
+        this.ChildBoxBoard.syncBagItem("Item");
+    }
+
+    SwitchToWeapon(){
+        console.log("Bag App：切换到Weapon");
+        this.ChildBoxBoard.syncBagItem("Weapon");
+    }
+    SwitchToItem(){
+        console.log("BagApp: 切换到Item");
+        this.ChildBoxBoard.syncBagItem("Item");
     }
 
 
@@ -51,6 +75,10 @@ export class BagApp{
     initItemPanelUI(ItemPanelUI){
         this.ItemPanelUI=ItemPanelUI;
         // this.initChildItemPanel();
+        this.checkOutLoadOver();
+    }
+    initWeaponPanelUI(WeaponPanelUI){
+        this.WeaponPanelUI=WeaponPanelUI;
         this.checkOutLoadOver();
     }
     initEntryUI(BagUI){
@@ -61,13 +89,14 @@ export class BagApp{
 
 
     checkOutLoadOver(){
-        if(this.BagEntryUI==null || this.ItemPanelUI==null){
-            console.error("BagApplication: 外部资源加载中。。。");
+        if(this.BagEntryUI==null || this.ItemPanelUI==null || this.WeaponPanelUI==null){
+            console.log("BagApplication: 外部资源加载中。。。");
             return;
         }else{
             console.log("BagApplication: 外部资源加载完毕");
             this.initChildBoxBoard();
             this.initChildItemPanel();
+            this.initChildWeaponPanel();
         }
     }
 
@@ -80,6 +109,12 @@ export class BagApp{
     initChildBoxBoard(){
         this.ChildBoxBoard=new ChildBoxBoard(this.DataBaseService,this.BagEntryUI);
     }
+    //武器弹窗
+    initChildWeaponPanel(){
+        this.ChildWeaponPanel=new ChildWeaponPanel(this.DataBaseService,this.WeaponPanelUI);
+    }
+
+
 
     //接收UI注入
     //训练界面入口UI
