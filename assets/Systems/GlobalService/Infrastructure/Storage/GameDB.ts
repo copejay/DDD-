@@ -4,13 +4,15 @@ import { SaveService } from './SaveService';
 import { RoleRow, RoleSchema,
      ItemRow, ItemSchema ,
      WeaponRow,WeaponSchema,
-     StackItemRow,StackItemSchema} from './GameTypes';
+     StackItemRow,StackItemSchema,
+     FormationRow,FormationSchema} from './GameTypes';
 
 export interface GameDBRaw {
     roles?: { [id: string]: RoleRow };
     items?: { [id: string]: ItemRow };
     weapons?: { [id: string]: WeaponRow };
     stackItems?: { [id: string]: StackItemRow };
+    formations?: { [id: string]: FormationRow };
     // 以后可以继续加其它表：skills / tasks / mails ...
 }
 
@@ -19,6 +21,7 @@ export class GameDB {
     readonly items: Table<ItemRow>;
     readonly weapons: Table<WeaponRow>;
     readonly stackItems: Table<StackItemRow>;
+    readonly formations: Table<FormationRow>;
     
     constructor(raw?: GameDBRaw) {
         //RoleRow是用来约束每个row的输入
@@ -28,6 +31,7 @@ export class GameDB {
         this.items = new Table<ItemRow>('items', ItemSchema, raw?.items);
         this.weapons = new Table<WeaponRow>('weapons', WeaponSchema, raw?.weapons);
         this.stackItems = new Table<StackItemRow>('stackItems', StackItemSchema, raw?.stackItems);
+        this.formations = new Table<FormationRow>('formations', FormationSchema, raw?.formations);
     }
 
     // 导出成可序列化的纯数据，用于存档
@@ -37,6 +41,7 @@ export class GameDB {
             items: this.items.export(),
             weapons: this.weapons.export(),
             stackItems: this.stackItems.export(),
+            formations: this.formations.export(),
         };
     }
 

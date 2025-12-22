@@ -46,7 +46,6 @@ export class HintPopApp{
 
     update(dt){
         for(let i=0;i<this.HintPopList.length;i++){
-            // console.log(`长度对比，Pop，View${this.HintPopList.length} ${this.HintPopViewList.length}`);
             let hintPop=this.HintPopList[i];
             hintPop.update(dt);
             //View同步

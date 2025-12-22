@@ -61,18 +61,50 @@ export class ResourceApp{
     //接收输入，利用Domain层，逻辑世界做出改变
     //读取逻辑世界，更新视图层
     //把逻辑世界的数据写入持久数据库
-    click(eventName:string){
-        if(eventName=="金币增加"){
-            console.log("ResourcesApp:受到金币增加指令");
-            this.DataBaseService.addGold(69);
-            this.setRole();
-            this.UI.syncGoldUI(this.DataBaseService.getGold());
-        }else if(eventName=="食物增加"){
-            console.log("ResourcesApp:受到食物增加指令");
-            this.DataBaseService.addFood(99);
-            this.UI.syncFoodUI(this.DataBaseService.getFood());
+
+    uiEvent(event:{type:any,message:any}){
+        if(event.type=="click"){
+            if(event.message=="goldAdd"){
+                this.eventGoldAdd();
+            }else if(event.message=="foodAdd"){
+                this.eventFoodAdd();
+            }else{
+                console.log("ResourcesApp: 未知点击指令",event.message);
+            }
+        }else if(event.type=="input"){
+
+        }else{
+            console.log("ResourcesApp: 未知输入指令",event.message);
         }
+
     }
+
+    eventGoldAdd(){
+        this.DataBaseService.addGold(69);
+        this.setRole();
+        this.UI.syncGoldUI(this.DataBaseService.getGold());
+    }
+
+
+    eventFoodAdd(){
+        this.DataBaseService.addFood(99);
+        this.setRole();
+        this.UI.syncFoodUI(this.DataBaseService.getFood());
+    }
+
+
+    // click(eventName:string){
+    //     if(eventName=="金币增加"){
+    //         console.log("ResourcesApp:受到金币增加指令");
+    //         this.DataBaseService.addGold(69);
+    //         this.setRole();
+    //         this.UI.syncGoldUI(this.DataBaseService.getGold());
+    //     }else if(eventName=="食物增加"){
+    //         console.log("ResourcesApp:受到食物增加指令");
+    //         this.DataBaseService.addFood(99);
+    //         this.UI.syncFoodUI(this.DataBaseService.getFood());
+    //     }
+    // }
 
     update(){
        

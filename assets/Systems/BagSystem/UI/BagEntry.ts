@@ -2,39 +2,24 @@ import { _decorator, Component, Node, UITransform } from 'cc';
 import { Prefab } from 'cc';
 const { ccclass, property } = _decorator;
 
-import { ItemPanelEntry } from './Common/ItemPanelEntry';
-import { WeaponPanelEntry } from './Common/WeaponPanelEntry';
+//子类
+import { ChildBagBoard } from './ChildBagBoard';
+import { ChildBagPop} from './ChildBagPop';
 
-// import { ChildBoxManager } from './ChildBoxManager';
-import { ChildItemBoxManager } from './ChildItemBoxManager';
-import { ChildWeaponBoxManager } from './ChildWeaponBoxManager';
 //引入管理层
 import { BagApp } from '../Application/BagApp';
 
-//Entry应该作为一个系统的入口，但是，一个系统完全可以拥有多个UI管理，比如弹窗
-//单独的弹窗完全可以自己管理自己。
-//仅仅又入口进行调用就可以了
 
+//Entry仅仅进行管理就行了，具体的功能UI由Assistant里面的去做
 @ccclass('BagEntry')
 export class BagEntry extends Component {
     
-    @property({type:Node,tooltip:"物品框板父节点"})
-    ItemBoxBoardParentNode:Node=null;
 
-    @property({type:Prefab,tooltip:"物品框板预制体"})
-    ItemBoxBoardPrefab:Prefab=null;
-    @property({type:Prefab,tooltip:"武器框板预制体"})
-    WeaponBoxBoardPrefab:Prefab=null;
+    @property({type:Node,tooltip:"ChildBoard"})
+    ChildBoardNode:Node=null;
 
-    //这个节点需要用来调节大小，才能适应内容的滑动要求
-    @property({type:Node,tooltip:"内容节点"})
-    ContentNode:Node=null;
-
-    @property({type:Node,tooltip:"物品面板"})
-    ItemPanel:Node=null;
-
-    @property({type:Node,tooltip:"武器面板"})
-    WeaponPanel:Node=null;
+    @property({type:Node,tooltip:"ChildBagPop"})
+    ChildPopNode:Node=null;
 
     @property({type:Node,tooltip:"切换武器背包的按钮"})
     SwitchWeaponBagBtn:Node=null;
@@ -42,12 +27,10 @@ export class BagEntry extends Component {
     @property({type:Node,tooltip:"切换物品背包的按钮"})
     SwitchItemBagBtn:Node=null;
 
+    //ChildBoard
+    ChildBagBoard:ChildBagBoard=null;
 
-    //子类管理器
-    ChildItemBoxManager:ChildItemBoxManager=null;
-    ChildWeaponBoxManager:ChildWeaponBoxManager=null;
-
-
+    ChildBagPop:ChildBagPop=null;
 
     //App层
     BagApp:BagApp;
@@ -57,19 +40,15 @@ export class BagEntry extends Component {
         console.log("BagEntry: LoadComponent开始");
         //初始化管理层
         this.BagApp=BagApp.instance;
-        //初始化UI里面的角色列表管理
-        this.ChildItemBoxManager=new ChildItemBoxManager(this.ItemBoxBoardPrefab,this.ItemBoxBoardParentNode,this.ItemBoxClickCallBack);
 
-        this.ChildWeaponBoxManager=new ChildWeaponBoxManager(this.WeaponBoxBoardPrefab,this.ItemBoxBoardParentNode,this.WeaponBoxClickCallBack);
+        this.ChildBagBoard=this.ChildBoardNode.getComponent(ChildBagBoard);
+        this.ChildBagBoard.Loading(this.BagApp);
 
+        this.ChildBagPop=this.ChildPopNode.getComponent(ChildBagPop);
+        this.ChildBagPop.Loading(this.BagApp);
+        
         //注入UI引用
         this.BagApp.initEntryUI(this);
-        this.BagApp.initItemPanelUI(this.ItemPanel.getComponent(ItemPanelEntry));
-        this.BagApp.initWeaponPanelUI(this.WeaponPanel.getComponent(WeaponPanelEntry));
-    }
-
-    onLoad(){
-        console.log("BagEntry: onLoad开始");
     }
 
 
@@ -93,48 +72,22 @@ export class BagEntry extends Component {
     }
 
 
-
-
-    //箭头函数确保this不丢失
-    ItemBoxClickCallBack=(ItemID:string)=>{
-        // this.ItemPanelManager.ShowItemPanel(RoleID);
-        this.BagApp.clickItemBox(ItemID);
-    }
-
-    WeaponBoxClickCallBack=(WeaponID:string)=>{
-        // this.ItemPanelManager.ShowItemPanel(RoleID);
-        this.BagApp.clickWeaponBox(WeaponID);
-    }
-
-
-
-    //管理显示视图
+    //创建面板
     createItemBoxBoard(ItemInfoList){
-        this.destroyAllBoard();
-        this.ChildItemBoxManager.CreateBoxBoard(ItemInfoList);
-        this.resetContentLength();
+        this.ChildBagBoard.createItemBoxBoard(ItemInfoList);
     }
     createWeaponBoxBoard(WeaponInfoList){
-        this.destroyAllBoard();
-        this.ChildWeaponBoxManager.CreateBoxBoard(WeaponInfoList);
-        this.resetContentLength();
+        this.ChildBagBoard.createWeaponBoxBoard(WeaponInfoList);
     }
 
+    //打开弹窗
+    openItemPop(StackItem){
+        this.ChildBagPop.openItemPop(StackItem);
 
-    destroyAllBoard(){
-        this.ChildItemBoxManager.DestroyBoxBoard();
-        this.ChildWeaponBoxManager.DestroyBoxBoard();
     }
 
-    // destroyItemBoxBoard(){
-    //     this.ChildItemBoxManager.DestroyBoxBoard();
-    // }
-    // destroyWeaponBoxBoard(){
-    //     this.ChildWeaponBoxManager.DestroyBoxBoard();
-    // }
-
-    resetContentLength(){
-        this.ContentNode.getComponent(UITransform).setContentSize(600,this.ChildItemBoxManager.ItemBoxTotalLength);
+    openWeaponPop(Weapon){
+        this.ChildBagPop.openWeaponPop(Weapon);
     }
 
 

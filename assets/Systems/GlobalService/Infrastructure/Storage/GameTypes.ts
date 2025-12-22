@@ -58,3 +58,14 @@ export const StackItemSchema: Schema<StackItemRow> = {
     id: { type: 'string' },
     count:  { type: 'number' },
 }
+
+
+export interface FormationRow{
+    id:string;
+    FormationRole:[];
+}
+
+export const FormationSchema: Schema<FormationRow> = {
+    id: { type: 'string' },
+    FormationRole: { type: 'array' },
+}

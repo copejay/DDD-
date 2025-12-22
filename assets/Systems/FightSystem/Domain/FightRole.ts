@@ -46,7 +46,15 @@ export class FightRole{
 
     FloatingTextList:Array<FloatingText>=[];
 
-    constructor(x:number,y:number){
+    constructor(){
+        // this.x=x;
+        // this.y=y;
+        // //存储初始位置
+        // this.beginX=x;
+        // this.beginY=y;
+    }
+
+    setSite(x:number,y:number){
         this.x=x;
         this.y=y;
         //存储初始位置
@@ -54,16 +62,59 @@ export class FightRole{
         this.beginY=y;
     }
 
+    setBaseInfo(name:string,level:number){
+        this.name=name;
+        this.level=level;
+    }
+
+    setFightInfo(speed:number,atk:number,def:number,hp:number){
+        this.Speed=speed;
+        this.Atk=atk;
+        this.Def=def;
+        this.maxHp=hp;
+        this.Hp=hp;
+    }
+
+    async Action(getDefenseList:(range:number)=>FightRole[]){
+        await this.delay(500);
+        let defenseList=getDefenseList(1);
+        defenseList.forEach((defenseRole)=>{
+            defenseRole.defense(this.attack());
+        })
+    }
+
+    delay(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     attack(){
-
+        return this.Atk;
     }
 
-    onHit(){
-
+    defense(atk:number){
+        let realAtk;
+        if(atk<=this.Def){
+            realAtk=1;
+        }else{
+            realAtk=atk-this.Def;
+        }
+        this.Hp-=realAtk;
+        console.log("FightRole");
+        console.log(`${this.name}受到${realAtk}伤害，当前血量${this.Hp}`);
+        this.playDamageFloat(`-${realAtk}`);
+        if(this.Hp<=0){
+            this.died=true;
+            console.log(`${this.name}死亡`);
+        }
     }
 
-    playDamageFloat(){
+    // onHit(){
 
+    // }
+
+    playDamageFloat(string){
+        let floatingText=new FloatingText(this.x,this.y,string);
+        this.FloatingTextList.push(floatingText);
     }
 
     playSkillFloat(){

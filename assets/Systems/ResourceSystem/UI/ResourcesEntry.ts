@@ -54,11 +54,11 @@ export class ResourcesEntry extends Component {
 
     //这里应该传给Application层，而不是自己处理
     AddGold(){
-        this.ResourceApp.click("金币增加");
+        this.ResourceApp.uiEvent({type:"click",message:"goldAdd"});
     }
 
     AddFood(){
-        this.ResourceApp.click("食物增加");
+        this.ResourceApp.uiEvent({type:"click",message:"foodAdd"});
     }
 
 

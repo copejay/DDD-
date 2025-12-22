@@ -27,6 +27,8 @@ export class FightEntry extends Component {
 
     private dtTime=1;
 
+    FightBoardInit:boolean=false;
+
     start() {
         this.FightApp=FightApp.instance;
         this.FightApp.initPrefabs(this.FightRolePrefab,this.FloatingTextPrefab,this.FightBoxPrefab);
@@ -36,16 +38,22 @@ export class FightEntry extends Component {
     }
 
     onCreateButtonClick(){
-        this.FightApp.createFightRole(this.FightBoardNode);
+        if(this.FightBoardInit==false){
+            this.FightApp.createFightSystem(this.FightBoardNode);
+            this.FightBoardInit=true;
+            this.FightApp.NewFight();
+        }else{
+            this.FightApp.NewFight();
+        }
     }
 
     update(deltaTime: number) {
-        console.log(`FightEntry:调用update`);
+        // console.log(`FightEntry:调用update`);
         this.FightApp.update(deltaTime);
         this.dtTime-=deltaTime;
         if(this.dtTime<=0){
             this.dtTime=1;
-            console.log(`FightEntry:${1},1秒钟`);
+            // console.log(`FightEntry:${1},1秒钟`);
         }
     }
 }

@@ -60,22 +60,10 @@ export class GlobalEntry extends Component {
         this.GlobalCanvas.active=false;
     }
 
-
-    // changeScene(sceneName:string){
-    //     this.openCanvas();
-    //     director.loadScene(sceneName);
-    //     setTimeout(()=>{
-    //         console.log(`GlobalEntry:定时器时间到`);
-    //         this.closeCanvas();
-    //     },50);
-    // }
-
     onLoad() {
         this.maskOpacity = this.BlackMask.getComponent(UIOpacity)!;
-
         // 初始完全透明
         this.maskOpacity.opacity = 0;
-
         // 确保节点启用
         this.BlackMask.active = true;
     }

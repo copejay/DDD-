@@ -15,9 +15,22 @@ export class RoleBoxView extends Component {
     @property(Node)
     Info:Node
 
+    @property(Node)
+    UpType:Node
+
     private CallBack:(RoleID:string)=>void=null;
 
     private BoxID:string="null";
+
+    setFormationUp(){
+        console.log("RoleBox:设置为上阵状态");
+        this.UpType.active=true;
+    }
+
+    setFormationDown(){
+        console.log("RoleBox:设置为下阵状态");
+        this.UpType.active=false;
+    }
 
     //初始化位置
     setPosition(x:number,y:number){
@@ -61,8 +74,10 @@ export class RoleBoxView extends Component {
     }
 
     //设置点击监听
-    start() {
+    onLoad() {
+        console.log(`RoleBox: start执行`);
         this.addListener();
+        this.setFormationDown();
     }
 
     addListener(){

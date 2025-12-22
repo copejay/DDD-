@@ -5,6 +5,7 @@ import { ItemChild } from "./ItemChild";
 import { RoleChild } from "./RoleChild";
 import { WeaponChild } from "./WeaponChild";
 import { StackItemChild } from "./StackItemChild";
+import { FormationRoleChild } from "./FormationRoleChild";
 
 import { RoleRow } from "../..";
 import { WeaponRow } from "../..";
@@ -29,6 +30,7 @@ export class DataBaseService{
     private RoleChild;
     private WeaponChild;
     private StackItemChild;
+    private FormationRoleChild;
 
     //初始化传入数据库引用
     constructor(){
@@ -45,6 +47,7 @@ export class DataBaseService{
         this.RoleChild=new RoleChild(this.GameDB);
         this.WeaponChild=new WeaponChild(this.GameDB);
         this.StackItemChild=new StackItemChild(this.GameDB);
+        this.FormationRoleChild=new FormationRoleChild(this.GameDB);
     }
 
 
@@ -96,5 +99,14 @@ export class DataBaseService{
     }
     setStackItem(StackItem:StackItemRow){
         this.StackItemChild.set(StackItem.id,StackItem.count);
+    }
+
+    //战斗阵容数据接口
+    getFormation(){
+        return this.FormationRoleChild.getFormation();
+    }
+
+    setFormation(Formation:[]){
+        this.FormationRoleChild.setFormation(Formation);
     }
 }

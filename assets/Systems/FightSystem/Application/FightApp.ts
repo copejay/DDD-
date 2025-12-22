@@ -1,21 +1,16 @@
-
+//工厂
 import { FightRoleFactory } from "../Infrastructure";
 import { FightBoxFactory } from "../Infrastructure";
-
 import { FloatingTextFactory } from "../Infrastructure";
 
-import { FightRoleView } from "../Infrastructure/";
-import { FloatingTextView } from "../Infrastructure";
+//系统组件
+import {FightManager} from "../Domain/A_FightManager";
+import { ViewSyncer } from "./Assistant/ViewSyncer";
+import { FightData } from "./Assistant/FightData";
 
-// import { FightRole } from "../Domain/FightRole";
-import { FloatingText } from "../Domain/FloatingText";
-
-// import { FightBoard } from "../Domain/FightBoard";
-import { FightRoleManager } from "../Domain/FightRoleManager";
-
-import { ChildSync } from "./ChildSync";
-
-import {Node, Prefab} from 'cc';
+//其它系统服务
+import { HintPopApp } from "../../HintPopSystem/Application/HintPopApp";
+import { DataBaseService } from "../../GlobalService";
 
 export class FightApp{
 
@@ -37,15 +32,15 @@ export class FightApp{
     private FightBoxFactory;
     private FloatingTextFactory;
 
-    //角色视图，列表
-    // private FightRoleViewList:FightRoleView[]=[];
-    // private FloatingTextViewList:FloatingTextView[]=[];
-    //角色管理
-    private FightRoleManager:FightRoleManager;
+    //战斗管理
+    private FightManager:FightManager;
+
     //子类
-    private ChildSync:ChildSync;
+    private ViewSyncer:ViewSyncer;
+    private FightData:FightData;
     private ChildSyncLoadOver:boolean=false;
 
+//系统接收注入
     //初始化进行注入
     initPrefabs(FightRolePrefab,FloatingTextPrefab,FightBoxPrefab){
         this.FightRolePrefab=FightRolePrefab;
@@ -53,47 +48,62 @@ export class FightApp{
         this.FightBoxPrefab=FightBoxPrefab;
         this.initFactory();
     }
-    initFightRolePrefab(FightRolePrefab){
-        this.FightRolePrefab=FightRolePrefab;
-    }
-    initFloatingTextPrefab(FloatingTextPrefab){
-        this.FloatingTextPrefab=FloatingTextPrefab;
-    }
     //接收预制体注入后，建立工厂
     initFactory(){
         this.FightRoleFactory=new FightRoleFactory(this.FightRolePrefab);
         this.FightBoxFactory=new FightBoxFactory(this.FightBoxPrefab);
         this.FloatingTextFactory=new FloatingTextFactory(this.FloatingTextPrefab);
     }
-    //建立角色管理
-    initFightRoleManager(){
-        this.FightRoleManager= new FightRoleManager();
+
+//战斗系统建立后，获取数据开始新战斗
+    NewFight(){
+        let Formation;
+        if(this.FightData.DataOk()){
+            Formation=this.FightData.getFormation();
+        }else{
+            HintPopApp.instance.createHintPop("非法战斗阵容！");
+            return;
+        }
+        this.FightManager.NewFight(Formation);
+        this.ViewSyncer.BeginSyncRole();
     }
 
-    //创建角色面板
-    createFightRole(BoardNode){
-        this.initFightRoleManager();
-        this.createChildSync(BoardNode);
+
+//战斗系统提示回调 
+    fightBeginCB(){
+        HintPopApp.instance.createHintPop("战斗开始");
+    }
+    fightOverCB(){
+        HintPopApp.instance.createHintPop("战斗结束");
     }
 
+//创建战斗系统
+    createFightSystem(BoardNode){
+        this.buildFightManager();
+        this.buildViewSyncer(BoardNode);
+        this.buildFightData();
+    }
+    //建立战斗管理数据体
+    buildFightManager(){
+        this.FightManager= new FightManager(this.fightBeginCB.bind(this),this.fightOverCB.bind(this));
+    }
     //建立同步子类
-    createChildSync(BoardNode){
+    buildViewSyncer(BoardNode){
         //传入工厂等，子类分担工作
-        this.ChildSync=new ChildSync(this.FightRoleManager,this.FightRoleFactory,this.FightBoxFactory,BoardNode);
+        this.ViewSyncer=new ViewSyncer(this.FightManager,this.FightRoleFactory,this.FloatingTextFactory,this.FightBoxFactory,BoardNode);
         this.ChildSyncLoadOver=true;
     }
+    //建立战斗数据获取类
+    buildFightData(){
+        this.FightData=new FightData(DataBaseService.instance);
+    }
 
-
-    // createFloatingText(parentNode:Node){
-    //     let floatingTextView=this.FloatingTextFactory.get(parentNode);
-    //     this.FloatingTextViewList.push(floatingTextView);
-    // }
 
 
     update(dt:number){
         if(this.ChildSyncLoadOver==true){
-            this.FightRoleManager.update(dt);
-            this.ChildSync.update(dt);
+            // this.FightRoleManager.update(dt);
+            this.ViewSyncer.update(dt);
         }
     }
 

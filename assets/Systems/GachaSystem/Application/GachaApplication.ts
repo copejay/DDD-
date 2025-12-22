@@ -21,16 +21,30 @@ export class GachaApplication{
     private DataBaseService;
     private ResourceApp;
 
-    private GachaPopUI;
+    // private GachaPopUI;
+    private GachaEntryUI;
 
     private constructor(){
         this.DataBaseService=DataBaseService.instance;
         this.ResourceApp=ResourceApp.instance;
     }
 
-    initGachaPopUI(ui){
-        this.GachaPopUI=ui;
+    // initGachaPopUI(ui){
+    //     this.GachaPopUI=ui;
+    // }
+    initEntryUI(EntryUI){
+        this.GachaEntryUI=EntryUI;
     }
+
+
+    //提供调用方法
+    ClickGachaEntryButton(){
+        this.GachaEntryUI.openGachaPop();
+    }
+    ClickGachaButton(){
+        this.GachaOne();
+    }
+
 
     GachaOne(){
         // console.log("GachaApp： 抽奖一次！");
@@ -43,7 +57,8 @@ export class GachaApplication{
         }else{
             this.DataBaseService.addGold(-500);
             this.ResourceApp.syncUI();
-            this.GachaPopUI.showGachaResultPop();
+            // this.GachaPopUI.showGachaResultPop();
+            this.GachaEntryUI.openGachaResultPop();
         }
     }
 

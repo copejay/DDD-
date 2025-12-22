@@ -2,11 +2,10 @@
 
 import { DataBaseService } from "../../GlobalService";
 
-import { ItemPanelData } from "../Domain/ItemPanelData";
+import { App_ChildBoxBoard } from "./App_ChildBoxBoard";
+import { App_ChildBagPop } from "./App_ChildBagPop";
+import {App_BagManager} from "./App_BagManager";
 
-import { ChildItemPanel } from "./ChildItemPanel";
-import { ChildBoxBoard } from "./ChildBoxBoard";
-import { ChildWeaponPanel } from "./ChildWeaponPanel";
 
 export class BagApp{
 
@@ -18,42 +17,26 @@ export class BagApp{
         }
         return this._instance;
     }
-
     constructor(){
         this.DataBaseService=DataBaseService.instance;
     }
 
     //全局数据服务
     private DataBaseService:DataBaseService;
-    //
-    private BagType="Item";
     //训练界面UI
     private BagEntryUI=null;
-    private ItemPanelUI=null;
-    private WeaponPanelUI=null;
-
-    //数据体
-    private ItemPanelData:ItemPanelData;
-
     //子类
-    private ChildItemPanel:ChildItemPanel;
-    private ChildBoxBoard:ChildBoxBoard;
-    private ChildWeaponPanel:ChildWeaponPanel;
+    private ChildBoxBoard:App_ChildBoxBoard;
+    private ChildBagPop:App_ChildBagPop;
 
-
-
-    // clickWeaponBox(WeaponID:string){
-    //     console.log("BagApplication: 点击武器框",WeaponID);
-    //     this.ChildWeaponPanel.openWeaponPanel(WeaponID);
-    // }
-    //提供给外部调用的方法
+//提供给外部调用的方法
     clickItemBox(ItemID:string){
         console.log("BagApplication: 点击角色框",ItemID);
-        this.ChildItemPanel.openItemPanel(ItemID);
+        this.ChildBagPop.openItemPop(ItemID);
     }
     clickWeaponBox(WeaponID:string){
         console.log("BagApplication: 点击武器框",WeaponID);
-        this.ChildWeaponPanel.openWeaponPanel(WeaponID);
+        this.ChildBagPop.openWeaponPop(WeaponID);
     }
 
     UILoadOver(){
@@ -71,62 +54,33 @@ export class BagApp{
     }
 
 
-    //角色弹窗UI,外部注入，交给子类管理
-    initItemPanelUI(ItemPanelUI){
-        this.ItemPanelUI=ItemPanelUI;
-        // this.initChildItemPanel();
-        this.checkOutLoadOver();
-    }
-    initWeaponPanelUI(WeaponPanelUI){
-        this.WeaponPanelUI=WeaponPanelUI;
-        this.checkOutLoadOver();
-    }
+
+//外部进行注入
     initEntryUI(BagUI){
         this.BagEntryUI=BagUI;
         // this.initChildBoxBoard();
         this.checkOutLoadOver();
     }
-
-
+//确认注入成功，进行组合
     checkOutLoadOver(){
-        if(this.BagEntryUI==null || this.ItemPanelUI==null || this.WeaponPanelUI==null){
+        if(this.BagEntryUI==null){
             console.log("BagApplication: 外部资源加载中。。。");
             return;
         }else{
             console.log("BagApplication: 外部资源加载完毕");
             this.initChildBoxBoard();
-            this.initChildItemPanel();
-            this.initChildWeaponPanel();
+            this.initChildBagPop();
         }
     }
-
-    //建立子类管理
-    //物品弹窗
-    initChildItemPanel(){
-        this.ChildItemPanel=new ChildItemPanel(this.DataBaseService,this.ItemPanelUI);
-    }
-    //物品面板
+//子类进行组合
+    //面板
     initChildBoxBoard(){
-        this.ChildBoxBoard=new ChildBoxBoard(this.DataBaseService,this.BagEntryUI);
+        this.ChildBoxBoard=new App_ChildBoxBoard(this.DataBaseService,this.BagEntryUI);
     }
-    //武器弹窗
-    initChildWeaponPanel(){
-        this.ChildWeaponPanel=new ChildWeaponPanel(this.DataBaseService,this.WeaponPanelUI);
+    //弹窗
+    initChildBagPop(){
+        this.ChildBagPop=new App_ChildBagPop(this.DataBaseService,this.BagEntryUI);
     }
 
-
-
-    //接收UI注入
-    //训练界面入口UI
-    // initEntryUI(BagUI){
-    //     this.BagEntryUI=BagUI;
-    //     // this.initChildBoxBoard();
-    // }
-
-
-    // //子角色面板板
-    // initChildBoxBoard(){
-    //     this.ChildBoxBoard=new ChildBoxBoard(this.DataBaseService,this.BagEntryUI);
-    // }
 
 }

@@ -32,15 +32,18 @@ export class RoleChild{
 
     getAllRole(){
         let AllRole=this.SaveRole.getAllRole();
+        // if(AllRole.length==0){
+        //     console.log("RoleChild:AllRole is empty");
+        //     return [{
+        //         id: "null",
+        //         name: "null",
+        //         templateID: "null",
+        //         level: 0,
+        //         exp:0,
+        //     }];
+        // }
         if(AllRole.length==0){
-            console.log("RoleChild:AllRole is empty");
-            return [{
-                id: "null",
-                name: "null",
-                templateID: "null",
-                level: 0,
-                exp:0,
-            }];
+            return [];
         }
         return AllRole;
     }
