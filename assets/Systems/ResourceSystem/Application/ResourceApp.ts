@@ -23,6 +23,8 @@ export class ResourceApp{
 
     private UI;
 
+    private unKnowNum=0;
+
 
     //构造时传入系统所需数据,组件
     private constructor(){
@@ -48,13 +50,24 @@ export class ResourceApp{
         const TimeID=AutoTimeID();
         const role:RoleRow={
             id:TimeID,
-            name:"古月方源",
+            name:`大圣${this.unKnowNum}`,
             templateID:"1",
             level:93,
             exp:0,
         }
         this.DataBaseService.setRole(role);
+        this.unKnowNum++;
     }
+
+    // addStackItem(){
+    //     let id="四级魔力结晶";
+    //     let num=10;
+    //     let StackItemRow={
+    //         id:id,
+    //         count:num,
+    //     }
+    //     this.DataBaseService.addStackItem(id,num);
+    // }
 
 
     //接收用户输入并传入子系统
@@ -80,15 +93,16 @@ export class ResourceApp{
     }
 
     eventGoldAdd(){
-        this.DataBaseService.addGold(69);
+        this.DataBaseService.addGold(500);
         this.setRole();
         this.UI.syncGoldUI(this.DataBaseService.getGold());
     }
 
 
     eventFoodAdd(){
-        this.DataBaseService.addFood(99);
-        this.setRole();
+        this.DataBaseService.addFood(500);
+        // this.setRole();
+        // this.addStackItem();
         this.UI.syncFoodUI(this.DataBaseService.getFood());
     }
 

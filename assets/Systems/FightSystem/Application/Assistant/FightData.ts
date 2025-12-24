@@ -9,7 +9,7 @@ interface FightFormation{
         {name:"猛虎王",speed:100,attack:500,defense:200,hp:15000,site:{x:1,y:3}},
         {name:"哈吉米",speed:100,attack:1000,defense:100,hp:10000,site:{x:2,y:2}}]
 
-let SiteList=[{x:-1,y:1},{x:-1,y:2},{x:-1,y:3},{x:-2,y:2},{x:-2,y:1}]
+// let SiteList=[{x:-1,y:1},{x:-1,y:2},{x:-1,y:3},{x:-2,y:2},{x:-2,y:1}]
 
 export class FightData{
 
@@ -47,7 +47,7 @@ export class FightData{
             let RoleID=FightRole.id;
             let RoleSite={x:FightRole.site.x,y:FightRole.site.y};
           
-            let newFightRole={name:RoleID,speed:100,attack:600,defense:200,hp:5000,site:SiteList[i]}
+            let newFightRole={name:RoleID,speed:100,attack:600,defense:200,hp:5000,site:RoleSite}
 
             this.FightFormation.LeftFightInfo.push(newFightRole);
         }

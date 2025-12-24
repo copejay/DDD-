@@ -3,6 +3,7 @@ const { ccclass, property } = _decorator;
 
 import { RolePanelEntry } from './Assistant/RolePanelEntry';
 import { TrainResourceNode } from './Assistant/TrainResourceNode';
+import { FormationPop } from './Assistant/FormationPop';
 
 import {RoleBoxManager } from './Assistant/RoleBoxManager';
 //引入管理层
@@ -17,9 +18,13 @@ export class TrainEntry extends Component {
 
     @property({type:Node,tooltip:"角色详情弹窗"})
     RolePanelNode:Node=null;
+
+    @property({type:FormationPop,tooltip:"阵型弹窗"})
+    FormationPopNode:FormationPop=null;
     //子类管理器
     RoleBoxManager:RoleBoxManager=null;
     RolePanel:RolePanelEntry=null;
+    FormationPop:FormationPop=null;
     //管理层
     TrainApplication:TrainApplication;
 
@@ -29,8 +34,12 @@ export class TrainEntry extends Component {
         let RoleBoxBoardPrefab=this.ResourceNode.getBoxPrefab();
 
         this.RoleBoxManager=new RoleBoxManager(RoleBoxBoardPrefab,RoleBoxBoardParentNode,this.RoleBoxClickCallBack);
+
         this.RolePanel=this.RolePanelNode.getComponent(RolePanelEntry);
         this.RolePanel.initEventBus(this.AssistantCB);
+
+        this.FormationPop=this.FormationPopNode.getComponent(FormationPop);
+        this.FormationPop.initEventBus(this.AssistantCB);
     }
     LoadApp(){
         //初始化管理层
@@ -46,9 +55,13 @@ export class TrainEntry extends Component {
         this.TrainApplication.UILoadOver();
     }
 
-    EventBus(message){
-        if(message.type=="UpFormationClick"){
-            this.TrainApplication.UpFormationClick(message.id);
+    EventBus(event){
+        if(event.type=="UpFormationClick"){
+            this.TrainApplication.UpFormationClick(event.data.id);
+        }
+        else if(event.type=="FormationPopClick"){
+            console.log(`TrainEntry: FormationPopClick${event.data.id}`);
+            this.TrainApplication.FormationCellClick(event.data.id);
         }
     }
 
@@ -68,10 +81,6 @@ export class TrainEntry extends Component {
         this.RoleBoxManager.reBuildBoxBoard(RoleInfo,upList);
         this.resetContentLength();
     }
-    // //销毁旧的角色框板
-    // destroyRoleBoxBoard(){
-    //     this.RoleBoxManager.DestroyBoxList();
-    // }
     //根据框的长度，调整内容长度，方便滑动
     resetContentLength(){
         let ContentNode=this.ResourceNode.getContentNode();
@@ -81,6 +90,10 @@ export class TrainEntry extends Component {
         this.RolePanel.open();
         this.RolePanel.setRoleID(RolePanelData.id);
         this.RolePanel.syncInfo(RolePanelData.name,RolePanelData.level,RolePanelData.exp);
+    }
+    openFormationPop(FormationInfo){
+        this.FormationPop.open();
+        this.FormationPop.syncRoleCellsInfo(FormationInfo)
     }
 
 

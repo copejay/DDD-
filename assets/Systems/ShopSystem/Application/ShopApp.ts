@@ -26,7 +26,11 @@ export class ShopApp{
 
     //对外方法
     ShopMerchantClick(){
-        let ShopItemInfoList=[{id:"MJ",price:999},{id:"Hello",price:6}]
+        let ShopItemInfoList=[
+            {id:"MJ",price:999},{id:"Hello",price:6},
+            {id:"轩辕剑",price:1000},{id:"筋斗云",price:1000},
+            {id:"大还丹",price:66}
+        ]
         this.ShopEntryUI.openShopBoard(ShopItemInfoList);
     }
 

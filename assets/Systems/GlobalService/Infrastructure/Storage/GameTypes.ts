@@ -18,17 +18,26 @@ export const RoleSchema: Schema<RoleRow> = {
     exp:    { type: 'number' },
 };
 
-export interface ItemRow {
-    id: string;      // 主键
-    name: string;
-    count: number;
+// export interface ItemRow {
+//     id: string;      // 主键
+//     name: string;
+//     count: number;
+// }
+
+// export const ItemSchema: Schema<ItemRow> = {
+//     id:    { type: 'string' },
+//     name:  { type: 'string' },
+//     count: { type: 'number' },
+// };
+export interface CurrencyRow{
+    id:string;
+    count:number;
 }
 
-export const ItemSchema: Schema<ItemRow> = {
-    id:    { type: 'string' },
-    name:  { type: 'string' },
+export const CurrencySchema:Schema<CurrencyRow>={
+    id:{type:'string'},
     count: { type: 'number' },
-};
+}
 
 
 export interface WeaponRow{

@@ -13,10 +13,10 @@ export class ShopBoxManager{
     BoxTotalLength:number=0;
 
     //孙格子-通信回调
-    ClickCallBack:(ShopItemID:string)=>void=null;
+    ClickCallBack:(ShopItemID:string,Cell)=>void=null;
 
     //初始注入，拿到需要的组件
-    constructor(BoxViewPrefab:Prefab,ParentNode:Node,ClickCallBack:(ShopItemID:string)=>void){
+    constructor(BoxViewPrefab:Prefab,ParentNode:Node,ClickCallBack:(ShopItemID:string,Cell)=>void){
         this.BoxFactory=new ShopItemViewFactory(BoxViewPrefab);
         this.ParentNode=ParentNode;
         this.ClickCallBack=ClickCallBack;
@@ -47,8 +47,8 @@ export class ShopBoxManager{
             Box.syncName(ShopItemInfo.id);
             Box.syncPrice(ShopItemInfo.price);
             //对每一个格子设置回调，调用回调，唤起角色弹窗，传入点击角色id
-            Box.setBoxInfo(ShopItemInfo.id,(ShopItemID)=>{
-                this.ClickCallBack(ShopItemID);
+            Box.setBoxInfo(ShopItemInfo.id,(ShopItemID,Cell)=>{
+                this.ClickCallBack(ShopItemID,Cell);
             });
         }
     }
@@ -81,12 +81,12 @@ export class ShopBoxManager{
         let BoxSiteList=[];
         let level=0;//排列层级
         for(let i=0;i<BoxNum;i++){
-            if(i%3==0){//每3个为一层
+            if(i%2==0){//每2个为一层
                 level++;
             }
             let BoxSite={
-                x:(i%3)*250+70,
-                y:(level-1)*-150,
+                x:(i%2)*260+90,
+                y:(level-1)*-110,
             }
             BoxSiteList.push(BoxSite);
             this.BoxTotalLength=150*level+100;

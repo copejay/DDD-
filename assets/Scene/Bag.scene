@@ -489,7 +489,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -100,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
@@ -528,7 +528,7 @@
         "__id__": 13
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 16
@@ -1254,8 +1254,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 21.658,
-      "y": 381.636,
+      "x": 0,
+      "y": -469.081,
       "z": 0
     },
     "_lrot": {
@@ -3247,7 +3247,7 @@
       "__uuid__": "5596e9bf-9cfe-4c6f-ae5d-d38708b22242",
       "__expectedType__": "cc.Prefab"
     },
-    "fileId": "aeFSSHGvFFfrh7Dg9XXYjX",
+    "fileId": "3fBJ8HqmRARr8AsydHE4Jp",
     "instance": {
       "__id__": 91
     },
@@ -3256,7 +3256,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "33Rpxw9wpN+KEPPlg7y9rf",
+    "fileId": "efYY9PhX9E3JDI8ZtKsSMh",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -3289,7 +3289,7 @@
   {
     "__type__": "cc.TargetInfo",
     "localID": [
-      "aeFSSHGvFFfrh7Dg9XXYjX"
+      "3fBJ8HqmRARr8AsydHE4Jp"
     ]
   },
   {
@@ -4797,7 +4797,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ChildBagBoard",
+    "_name": "BagCellsManager",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -4838,10 +4838,10 @@
       "y": 0,
       "z": 0
     },
-    "_id": "36KpAMreRF2amdwA3XQURk"
+    "_id": "866u185vpGmZEePR5uCIf8"
   },
   {
-    "__type__": "a59dbdsIJZErJCu2/p1Mv9s",
+    "__type__": "db80f3BPT1AcYWXbmN50F9c",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -4867,11 +4867,11 @@
       "__uuid__": "a2873623-a829-491e-b4f3-c010f633035c",
       "__expectedType__": "cc.Prefab"
     },
-    "_id": "77cq38BRxAuZxcwzhr53+7"
+    "_id": "37FS1bhsBMzKRfwvfe8FV2"
   },
   {
     "__type__": "cc.Node",
-    "_name": "ChildBagPop",
+    "_name": "BagPopManager",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -4919,7 +4919,7 @@
       "y": 0,
       "z": 0
     },
-    "_id": "e7FVOrk0RC75uOvGt9Oz6Y"
+    "_id": "88CGNlpQlNXLWgWHHd/k7L"
   },
   {
     "__type__": "cc.Node",
@@ -5063,7 +5063,7 @@
     "_id": "2bvmhGu79Dm7ZFF3u/P7ZH"
   },
   {
-    "__type__": "8e2d4Xg5iNOoK8u7tW2Ooux",
+    "__type__": "44a0emwX8dAl4IZox6yJAoC",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -5078,7 +5078,7 @@
     "WeaponPopNode": {
       "__id__": 152
     },
-    "_id": "6dV0dWE0ZA4Jv5VvVb7OfM"
+    "_id": "cd8PG4aIJCiJPAe3nv+cJO"
   },
   {
     "__type__": "cc.UITransform",
@@ -5112,10 +5112,10 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "ChildBoardNode": {
+    "BagCellsManagerNode": {
       "__id__": 147
     },
-    "ChildPopNode": {
+    "BagPopManagerNode": {
       "__id__": 149
     },
     "SwitchWeaponBagBtn": {

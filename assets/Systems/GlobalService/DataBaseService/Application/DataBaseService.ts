@@ -1,11 +1,12 @@
 
 import { GameDBService } from "../../Infrastructure/Storage/GameDBService";
 
-import { ItemChild } from "./ItemChild";
-import { RoleChild } from "./RoleChild";
-import { WeaponChild } from "./WeaponChild";
-import { StackItemChild } from "./StackItemChild";
-import { FormationRoleChild } from "./FormationRoleChild";
+import { DataStackItem } from "./Assistant/DataStackItem";
+import {DataWeapon} from "./Assistant/DataWeapon";
+import {DataRole} from "./Assistant/DataRole";
+import {DataFormation} from "./Assistant/DataFormation";
+import { DataCurrency } from "./Assistant/DataCurrency";
+
 
 import { RoleRow } from "../..";
 import { WeaponRow } from "../..";
@@ -26,11 +27,11 @@ export class DataBaseService{
 
     private GameDB;
 
-    private ItemChild;
-    private RoleChild;
-    private WeaponChild;
-    private StackItemChild;
-    private FormationRoleChild;
+    private DataStackItem;
+    private DataWeapon;
+    private DataRole;
+    private DataFormation;
+    private DataCurrency;
 
     //初始化传入数据库引用
     constructor(){
@@ -43,70 +44,78 @@ export class DataBaseService{
 
     //初始化数据服务的子类
     initChild(){
-        this.ItemChild=new ItemChild(this.GameDB);
-        this.RoleChild=new RoleChild(this.GameDB);
-        this.WeaponChild=new WeaponChild(this.GameDB);
-        this.StackItemChild=new StackItemChild(this.GameDB);
-        this.FormationRoleChild=new FormationRoleChild(this.GameDB);
+        this.DataFormation=new DataFormation(this.GameDB);
+
+        this.DataStackItem=new DataStackItem(this.GameDB);
+        this.DataWeapon=new DataWeapon(this.GameDB);
+        this.DataRole=new DataRole(this.GameDB);
+        this.DataCurrency=new DataCurrency(this.GameDB);
     }
 
 
     //基础资源数据接口
     addGold(GoldNum:number){
         console.log("DataBaseService:金币增加接口被调用");
-        this.ItemChild.addGold(GoldNum);
+        this.DataCurrency.addGold(GoldNum);
     }
     addFood(FoodNum:number){
-        this.ItemChild.addFood(FoodNum);
+        this.DataCurrency.addFood(FoodNum);
     }
     getGold(){
-        const Gold=this.ItemChild.getGold();
+        const Gold=this.DataCurrency.getGold();
         return Gold;
     }
     getFood(){
-        const Food=this.ItemChild.getFood();
+        const Food=this.DataCurrency.getFood();
         return Food;
     }
 
     //人物数据接口
     getRole(RoleID:string){
-        return this.RoleChild.getRole(RoleID);
+        return this.DataRole.getRole(RoleID);
     }
     getAllRole(){
-        return this.RoleChild.getAllRole();
+        return this.DataRole.getAllRole();
     }
     setRole(Role:RoleRow){
-        this.RoleChild.saveRole(Role);
+        this.DataRole.setRole(Role);
     }
 
     //武器数据接口
     getWeapon(WeaponID:string){
-        return this.WeaponChild.getWeapon(WeaponID);
+        return this.DataWeapon.getWeapon(WeaponID);
     }
     getAllWeapon(){
-        return this.WeaponChild.getAllWeapon();
+        return this.DataWeapon.getAllWeapon();
     }
     setWeapon(Weapon:WeaponRow){
-        this.WeaponChild.saveWeapon(Weapon);
+        this.DataWeapon.saveWeapon(Weapon);
     }
 
     //栈式物品数据接口
+    addStackItem(StackItemID:string,Count:number){
+        this.DataStackItem.add(StackItemID,Count);
+    }
+    reduceStackItem(StackItemID:string,count:number){
+        this.DataStackItem.reduce(StackItemID,count);
+    }
+
     getStackItem(StackItemID:string){
-        return this.StackItemChild.getOne(StackItemID);
+        return this.DataStackItem.getOne(StackItemID);
     }
     getAllStackItem(){
-        return this.StackItemChild.getAll();
+        return this.DataStackItem.getAll();
     }
-    setStackItem(StackItem:StackItemRow){
-        this.StackItemChild.set(StackItem.id,StackItem.count);
-    }
+    // setStackItem(StackItem:StackItemRow){
+    //     this.DataStackItem.set(StackItem.id,StackItem.count);
+    // }
 
     //战斗阵容数据接口
     getFormation(){
-        return this.FormationRoleChild.getFormation();
+        return this.DataFormation.getFormation();
     }
 
     setFormation(Formation:[]){
-        this.FormationRoleChild.setFormation(Formation);
+        this.DataFormation.setFormation(Formation);
     }
 }

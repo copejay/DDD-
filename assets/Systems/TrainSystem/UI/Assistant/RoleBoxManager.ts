@@ -96,7 +96,7 @@ export class RoleBoxManager{
                 level++;
             }
             let BoxSite={
-                x:(i%3)*170,
+                x:(i%3)*180+20,
                 y:(level-1)*-150,
             }
             BoxSiteList.push(BoxSite);

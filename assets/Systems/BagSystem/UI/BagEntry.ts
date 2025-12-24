@@ -3,8 +3,10 @@ import { Prefab } from 'cc';
 const { ccclass, property } = _decorator;
 
 //子类
-import { ChildBagBoard } from './ChildBagBoard';
-import { ChildBagPop} from './ChildBagPop';
+// import { ChildBagBoard } from './ChildBagBoard';
+import { BagCellsManager } from './Assistant/BagCellsManager';
+import {BagPopManager} from './Assistant/BagPopManager';
+// import { ChildBagPop} from './ChildBagPop';
 
 //引入管理层
 import { BagApp } from '../Application/BagApp';
@@ -15,11 +17,15 @@ import { BagApp } from '../Application/BagApp';
 export class BagEntry extends Component {
     
 
-    @property({type:Node,tooltip:"ChildBoard"})
-    ChildBoardNode:Node=null;
+    // @property({type:Node,tooltip:"ChildBoard"})
+    // ChildBoardNode:Node=null;
+    @property({type:Node,tooltip:"BagCellsManager"})
+    BagCellsManagerNode:Node=null;
 
-    @property({type:Node,tooltip:"ChildBagPop"})
-    ChildPopNode:Node=null;
+    // @property({type:Node,tooltip:"ChildBagPop"})
+    // ChildPopNode:Node=null;
+    @property({type:Node,tooltip:"BagPopManager"})
+    BagPopManagerNode:Node=null;
 
     @property({type:Node,tooltip:"切换武器背包的按钮"})
     SwitchWeaponBagBtn:Node=null;
@@ -28,9 +34,14 @@ export class BagEntry extends Component {
     SwitchItemBagBtn:Node=null;
 
     //ChildBoard
-    ChildBagBoard:ChildBagBoard=null;
+    // ChildBagBoard:ChildBagBoard=null;
 
-    ChildBagPop:ChildBagPop=null;
+    //BagCellsManager
+    BagCellsManager:BagCellsManager=null;
+    //BagPopManager
+    BagPopManager:BagPopManager=null;
+    
+    // ChildBagPop:ChildBagPop=null;
 
     //App层
     BagApp:BagApp;
@@ -41,11 +52,11 @@ export class BagEntry extends Component {
         //初始化管理层
         this.BagApp=BagApp.instance;
 
-        this.ChildBagBoard=this.ChildBoardNode.getComponent(ChildBagBoard);
-        this.ChildBagBoard.Loading(this.BagApp);
+        this.BagCellsManager=this.BagCellsManagerNode.getComponent(BagCellsManager);
+        this.BagCellsManager.Loading(this.BagApp);
 
-        this.ChildBagPop=this.ChildPopNode.getComponent(ChildBagPop);
-        this.ChildBagPop.Loading(this.BagApp);
+        this.BagPopManager=this.BagPopManagerNode.getComponent(BagPopManager);
+        this.BagPopManager.Loading(this.BagApp);
         
         //注入UI引用
         this.BagApp.initEntryUI(this);
@@ -74,20 +85,20 @@ export class BagEntry extends Component {
 
     //创建面板
     createItemBoxBoard(ItemInfoList){
-        this.ChildBagBoard.createItemBoxBoard(ItemInfoList);
+        this.BagCellsManager.reBuildItemCells(ItemInfoList);
     }
     createWeaponBoxBoard(WeaponInfoList){
-        this.ChildBagBoard.createWeaponBoxBoard(WeaponInfoList);
+        this.BagCellsManager.reBuildWeaponCells(WeaponInfoList);
     }
 
     //打开弹窗
     openItemPop(StackItem){
-        this.ChildBagPop.openItemPop(StackItem);
+        this.BagPopManager.openItemPop(StackItem);
 
     }
 
     openWeaponPop(Weapon){
-        this.ChildBagPop.openWeaponPop(Weapon);
+        this.BagPopManager.openWeaponPop(Weapon);
     }
 
 

@@ -1,10 +1,11 @@
 
 
 import { DataBaseService } from "../../GlobalService";
+import { TemplateService } from "../../GlobalService";
 
-import { App_ChildBoxBoard } from "./App_ChildBoxBoard";
-import { App_ChildBagPop } from "./App_ChildBagPop";
-import {App_BagManager} from "./App_BagManager";
+
+import { BagCells } from "./Assistant/BagCells";
+import { BagPop } from "./Assistant/BagPop";
 
 
 export class BagApp{
@@ -19,38 +20,43 @@ export class BagApp{
     }
     constructor(){
         this.DataBaseService=DataBaseService.instance;
+        this.TemplateService=TemplateService.instance;
     }
 
     //全局数据服务
     private DataBaseService:DataBaseService;
+    //模板服务
+    private TemplateService:TemplateService;
     //训练界面UI
     private BagEntryUI=null;
     //子类
-    private ChildBoxBoard:App_ChildBoxBoard;
-    private ChildBagPop:App_ChildBagPop;
+    // private ChildBoxBoard:App_ChildBoxBoard;
+    // private ChildBagPop:App_ChildBagPop;
+    private BagCells:BagCells;
+    private BagPop:BagPop;
 
 //提供给外部调用的方法
     clickItemBox(ItemID:string){
         console.log("BagApplication: 点击角色框",ItemID);
-        this.ChildBagPop.openItemPop(ItemID);
+        this.BagPop.openItemPop(ItemID);
     }
     clickWeaponBox(WeaponID:string){
         console.log("BagApplication: 点击武器框",WeaponID);
-        this.ChildBagPop.openWeaponPop(WeaponID);
+        this.BagPop.openWeaponPop(WeaponID);
     }
 
     UILoadOver(){
         console.log("BagApplication: UI 加载完毕");
-        this.ChildBoxBoard.syncBagItem("Item");
+        this.BagCells.syncBagItem("Item");
     }
 
     SwitchToWeapon(){
         console.log("Bag App：切换到Weapon");
-        this.ChildBoxBoard.syncBagItem("Weapon");
+        this.BagCells.syncBagItem("Weapon");
     }
     SwitchToItem(){
         console.log("BagApp: 切换到Item");
-        this.ChildBoxBoard.syncBagItem("Item");
+        this.BagCells.syncBagItem("Item");
     }
 
 
@@ -75,11 +81,11 @@ export class BagApp{
 //子类进行组合
     //面板
     initChildBoxBoard(){
-        this.ChildBoxBoard=new App_ChildBoxBoard(this.DataBaseService,this.BagEntryUI);
+        this.BagCells=new BagCells(this.DataBaseService,this.TemplateService,this.BagEntryUI);
     }
     //弹窗
     initChildBagPop(){
-        this.ChildBagPop=new App_ChildBagPop(this.DataBaseService,this.BagEntryUI);
+        this.BagPop=new BagPop(this.DataBaseService,this.BagEntryUI);
     }
 
 

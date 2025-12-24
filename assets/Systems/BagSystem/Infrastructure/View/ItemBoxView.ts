@@ -34,9 +34,27 @@ export class ItemBoxView extends Component {
         this.node.setPosition(x,y);
     }
 
+    AutoText(string:string){
+        const chars = Array.from(string);
+        let result = "";
+        for (let i = 0; i < chars.length; i++) {
+            result += chars[i];
+            // 每 3 个字符插入一次换行
+            if ((i + 1) % 3 === 0 && i !== chars.length - 1) {
+                result += "\n";
+            }
+        }
+        return result;
+    }
+
+    // setId(ItemID){
+    //     this.ItemID=ItemID;
+    // }
+
     //同步物品名称
     syncName(ItemName){
-        this.ItemNameNode.getComponent(Label).string=ItemName;
+        let string=this.AutoText(ItemName);
+        this.ItemNameNode.getComponent(Label).string=string;
     }
 
     //同步物品数量

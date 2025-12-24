@@ -1,20 +1,38 @@
 
-import { RoleChild } from "./RoleChild";
-
+// import { RoleChild } from "./RoleChild";
+import { Template } from "../Domain/Template/Template";
 
 export class TemplateService{
 
+    private static _instance:TemplateService;
 
-    private RoleChild;
-
-    constructor(){
-        this.RoleChild=new RoleChild();
+    public static get instance(){
+        if(!this._instance){
+            this._instance=new TemplateService();
+        }
+        return this._instance;
     }
 
-    getRoleTemplate(templateID:string){
+    template:Template;
+   
+    constructor(){
+        this.template=new Template();
+    }
 
-        const roleTemplate=this.RoleChild.getRoleTemplate(templateID);
-        return roleTemplate;
+    // getAllStackItem(){
+
+    // }
+
+    getStackItem(id:string){
+        return this.template.getTemplate(id);
+    }
+
+    checkStackItem(id:string){
+        return this.template.checkOneExist(id);
+    }
+
+    checkListStackItem(idList:string[]){
+        return this.template.checkListExist(idList);
     }
 
 }
