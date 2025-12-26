@@ -19,10 +19,17 @@ export class DataRole{
             console.log("RoleChild:RoleID not exist");
             return {
                 id: "null",
-                name: "null",
-                templateID: "null",
-                level: 0,
-                exp:0,
+                baseInfo:{
+                    name:"null",
+                    level:0,
+                    exp:0,
+                },
+                equipList:[],
+                skillList:[]
+                // name: "null",
+                // templateID: "null",
+                // level: 0,
+                // exp:0,
             };
         }else{
             let Role=this._getRole(RoleID);
@@ -66,10 +73,17 @@ export class DataRole{
     _getRole(RoleID:string){
         let Role:{
             id: "",
-            name: "",
-            templateID: "",
-            level: 0,
-            exp:0,
+            baseInfo:{
+                name:"null",
+                level:0,
+                exp:0,
+            },
+            equipList:[],
+            skillList:[]
+            // name: "",
+            // templateID: "",
+            // level: 0,
+            // exp:0,
         }=this.GameDB.roles.get(RoleID);
         return Role;
     }

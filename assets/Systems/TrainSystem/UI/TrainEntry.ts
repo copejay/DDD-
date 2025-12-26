@@ -9,6 +9,8 @@ import {RoleBoxManager } from './Assistant/RoleBoxManager';
 //引入管理层
 import { TrainApplication } from '../Application/TrainApplication';
 
+import { RoleRow } from '../../GlobalService';
+
 
 @ccclass('TrainEntry')
 export class TrainEntry extends Component {
@@ -56,12 +58,23 @@ export class TrainEntry extends Component {
     }
 
     EventBus(event){
-        if(event.type=="UpFormationClick"){
-            this.TrainApplication.UpFormationClick(event.data.id);
+        if(event.callFrom=="RolePanelEntry"){
+            if(event.type=="UpFormationClick"){
+                this.TrainApplication.UpFormationClick(event.data.id);
+            }
         }
-        else if(event.type=="FormationPopClick"){
-            console.log(`TrainEntry: FormationPopClick${event.data.id}`);
-            this.TrainApplication.FormationCellClick(event.data.id);
+        else if(event.callFrom=="FormationPopClick"){
+            if(event.type=="ClickCell"){
+                console.log(`TrainEntry: FormationPopClick${event.data.id}`);
+                this.TrainApplication.FormationCellClick(event.data.id);
+            }else if(event.type=="CleanFormation"){
+                console.log("hahaha");
+            }else if(event.type=="DownRole"){
+                this.TrainApplication.DownRoleClick();
+            }
+        }
+        else{
+            console.error(`TrainEntry:未知来源信息${event.callFrom}`);
         }
     }
 
@@ -77,7 +90,7 @@ export class TrainEntry extends Component {
     }
 
     //创建角色管理框
-    reBuildBoxBoard(RoleInfo,upList){
+    reBuildBoxBoard(RoleInfo:RoleRow[],upList){
         this.RoleBoxManager.reBuildBoxBoard(RoleInfo,upList);
         this.resetContentLength();
     }
@@ -86,14 +99,14 @@ export class TrainEntry extends Component {
         let ContentNode=this.ResourceNode.getContentNode();
         ContentNode.getComponent(UITransform).setContentSize(600,this.RoleBoxManager.BoxTotalLength);
     }
-    openRolePanel(RolePanelData){
+    openRolePanel(RolePanelData:RoleRow){
         this.RolePanel.open();
         this.RolePanel.setRoleID(RolePanelData.id);
-        this.RolePanel.syncInfo(RolePanelData.name,RolePanelData.level,RolePanelData.exp);
+        this.RolePanel.syncInfo(RolePanelData.baseInfo.name,RolePanelData.baseInfo.level,RolePanelData.baseInfo.exp);
     }
-    openFormationPop(FormationInfo){
+    openFormationPop(FormationDisplayInfo:[{name:string,site:{x:number,y:number}}]){
         this.FormationPop.open();
-        this.FormationPop.syncRoleCellsInfo(FormationInfo)
+        this.FormationPop.syncRoleCellsInfo(FormationDisplayInfo)
     }
 
 

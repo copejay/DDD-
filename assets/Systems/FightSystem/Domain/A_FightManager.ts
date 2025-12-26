@@ -45,8 +45,8 @@ export class FightManager{
 
     LoadComponent(){
         this.FightBoardManager=new FightBoardManager();
-        this.LeftFightRoleManager=new FightRoleManager();
-        this.RightFightRoleManager=new FightRoleManager();
+        this.LeftFightRoleManager=new FightRoleManager("left");
+        this.RightFightRoleManager=new FightRoleManager("right");
     }
 
     constructor(beginCB:()=>void,overCB:()=>void){

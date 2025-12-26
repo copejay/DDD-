@@ -5636,6 +5636,10 @@
       "__uuid__": "90c3809e-e27e-4dd4-90a3-cc7273d280f9",
       "__expectedType__": "cc.Prefab"
     },
+    "HitEffectPrefab": {
+      "__uuid__": "bfc3963e-f07b-43a9-8372-0870a5954563",
+      "__expectedType__": "cc.Prefab"
+    },
     "FightBoardNode": {
       "__id__": 113
     },

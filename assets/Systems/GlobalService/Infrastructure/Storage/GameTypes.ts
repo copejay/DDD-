@@ -1,21 +1,42 @@
 // GameTypes.ts
 import { Schema } from './Schema';
 
+interface RoleBaseInfo {
+  name: string;
+  level: number;
+  exp: number;
+}
+
+// interface RoleEquipList{
+//     weapons:{id:string,up:boolean}[];
+// }
+
+// interface RoleSkillList{
+//     skills:{id:string,up:boolean}[];
+// }
+
 export interface RoleRow {
     id: string;      // 主键
-    name: string;
-    templateID:string;
-    level: number;
-    exp: number;
+    baseInfo:RoleBaseInfo;
+    equipList:{id:string,up:boolean}[];
+    skillList:{id:string,up:boolean}[];
+    // name: string;
+    // templateID:string;
+    // level: number;
+    // exp: number;
+    // infoList:{};
 }
 
 //Schema类型检查是为了确保运行时不出错
 export const RoleSchema: Schema<RoleRow> = {
     id:    { type: 'string' },
-    name:  { type: 'string' },
-    templateID: { type: 'string' },
-    level: { type: 'number' },
-    exp:    { type: 'number' },
+    baseInfo: { type: 'object' },
+    equipList: { type: 'array' },
+    skillList: { type: 'array' },
+    // name:  { type: 'string' },
+    // templateID: { type: 'string' },
+    // level: { type: 'number' },
+    // exp:    { type: 'number' },
 };
 
 // export interface ItemRow {

@@ -50,10 +50,17 @@ export class ResourceApp{
         const TimeID=AutoTimeID();
         const role:RoleRow={
             id:TimeID,
-            name:`大圣${this.unKnowNum}`,
-            templateID:"1",
-            level:93,
-            exp:0,
+            baseInfo:{
+                name:`孙悟空${this.unKnowNum}`,
+                level:100,
+                exp:0,
+            },
+            equipList:[],
+            skillList:[{id:'tianwaifeigun',up:true}],
+            // name:`大圣${this.unKnowNum}`,
+            // templateID:"1",
+            // level:93,
+            // exp:0,
         }
         this.DataBaseService.setRole(role);
         this.unKnowNum++;

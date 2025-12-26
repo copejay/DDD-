@@ -26,6 +26,12 @@ export class FormationPop extends Component {
     @property(Node)
     CloseButton:Node;
 
+    @property(Node)
+    DownRoleButton:Node;
+
+    @property(Node)
+    CleanFormationButton:Node;
+
     FormationRoleViewFactory:FormationRoleViewFactory;
     FormationBoxViewFactory:FormationBoxViewFactory;
 
@@ -34,13 +40,20 @@ export class FormationPop extends Component {
 
     EventBus;
 
+    listen(){
+        this.CloseButton.on(Node.EventType.TOUCH_END,this.close,this);
+        this.DownRoleButton.on(Node.EventType.TOUCH_END,this.downRoleClick,this);
+        this.CleanFormationButton.on(Node.EventType.TOUCH_END,this.cleanFormationClick,this);
+    }
+
     start(){
         this.close();
         this.initFactory();
         // this.createFormationBoard();
         this.syncBaseCellsInfo();
+        this.listen();
 
-        this.CloseButton.on(Node.EventType.TOUCH_END,this.close,this);
+        // this.CloseButton.on(Node.EventType.TOUCH_END,this.close,this);
     }
 
     close(){
@@ -51,10 +64,22 @@ export class FormationPop extends Component {
         this.ActiveNode.active=true;
     }
 
+    downRoleClick(){
+        if(this.EventBus!=null){
+            this.EventBus({callFrom:"FormationPopClick",type:"DownRole",data:{}});
+        }
+    }
+
+    cleanFormationClick(){
+        if(this.EventBus!=null){
+            this.EventBus({callFrom:"FormationPopClick",type:"CleanFormation",data:{}});
+        }
+    }
+
     clickCB(id){
         console.log(`FOrmationPop: clickCB${id}`);
         if(this.EventBus!=null){
-            this.EventBus({type:"FormationPopClick",data:{id:id}});
+            this.EventBus({callFrom:"FormationPopClick",type:"ClickCell",data:{id:id}});
         }
     }
 
@@ -70,20 +95,20 @@ export class FormationPop extends Component {
     }
 
 
-    syncRoleCellsInfo(FormationInfo){
-        let num=FormationInfo.length;
+    syncRoleCellsInfo(FormationDisplayInfo){
+        let num=FormationDisplayInfo.length;
         this.recycleRoleCellView();
         this.FormationRoleCells=this.buildRoleCellsView(num);
         let siteList=this.buildSiteList();
         for (let i=0;i<num;i++){
-            let fmOne=FormationInfo[i];
+            let fmOne=FormationDisplayInfo[i];
             let RoleCellView=this.FormationRoleCells[i];
-            let fmID=fmOne.id;
+            let fmName=fmOne.name;
             let fmSite={x:fmOne.site.x,y:fmOne.site.y};
             //棋盘右侧是右下为正，左侧以右侧y轴为镜像
             let newI=3+fmSite.x+(fmSite.y-1)*3;
             RoleCellView.setPosition(siteList[newI][0],siteList[newI][1]);
-            RoleCellView.setName(fmID.toString());
+            RoleCellView.setName(fmName.toString());
             // RoleCellView.setPosition(siteList[i][0],siteList[i][1]);
         }
     }
@@ -130,7 +155,7 @@ export class FormationPop extends Component {
 
     buildSiteList(){
         let BoxLength=70;
-        let Space=10;
+        let Space=20;
         let siteList=[];
 
         let x,y=0;
@@ -139,7 +164,7 @@ export class FormationPop extends Component {
             if(i%3==0){
                 level+=1;
             }
-            x=(i-level*3)*(BoxLength+Space)-70;
+            x=(i-level*3)*(BoxLength+Space)-80;
             y=level*-(BoxLength+Space);
             let site=[x,y];
             // this.BoxSiteList.right.push(site)

@@ -1,5 +1,6 @@
 
 import { FloatingText } from "./FloatingText";
+import { HitEffect } from "./HitEffect";
 
 export class FightRole{
 
@@ -18,7 +19,7 @@ export class FightRole{
     baseAtk:number=15;
     baseDef:number=10;
 
-    skillName:string="雷霆半月斩";
+    skillName:string="万剑决";
 
     //变量
 
@@ -45,6 +46,10 @@ export class FightRole{
     died:boolean=false;
 
     FloatingTextList:Array<FloatingText>=[];
+    HitEffectList:Array<HitEffect>=[];
+
+    side:"left"|"right";
+    classType;
 
     constructor(){
         // this.x=x;
@@ -62,9 +67,14 @@ export class FightRole{
         this.beginY=y;
     }
 
-    setBaseInfo(name:string,level:number){
+    setSide(side:"left"|"right"){
+        this.side=side;
+    }
+
+    setBaseInfo(name:string,level:number,classType:string){
         this.name=name;
         this.level=level;
+        this.classType=classType;
     }
 
     setFightInfo(speed:number,atk:number,def:number,hp:number){
@@ -77,10 +87,14 @@ export class FightRole{
 
     async Action(getDefenseList:(range:number)=>FightRole[]){
         await this.delay(500);
+        let skillFloat=this.playSkillFloat();
+        await skillFloat.finished;
         let defenseList=getDefenseList(1);
-        defenseList.forEach((defenseRole)=>{
-            defenseRole.defense(this.attack());
-        })
+        await Promise.all(
+            defenseList.map(defenseRole =>
+                defenseRole.defense(this.attack())
+            )
+        );
     }
 
     delay(ms: number) {
@@ -91,7 +105,25 @@ export class FightRole{
         return this.Atk;
     }
 
-    defense(atk:number){
+    async pushBack(){
+        console.log(`FightRole: 后退函数执行`);
+        let backLong=5;
+        let sideMap={
+            left:-1,
+            right:1,
+        }
+        this.x+=backLong*sideMap[this.side];
+        await this.delay(100);
+        this.x=this.beginX;
+    }
+
+    async defense(atk:number){
+
+        this.playHitEffect();
+        await this.HitEffectList[this.HitEffectList.length-1].finished;
+
+        await this.pushBack();
+
         let realAtk;
         if(atk<=this.Def){
             realAtk=1;
@@ -99,27 +131,49 @@ export class FightRole{
             realAtk=atk-this.Def;
         }
         this.Hp-=realAtk;
+
+        let displayAtk;
+        if(realAtk>=10000){
+            displayAtk = `${Math.floor(realAtk / 1000) / 10}w`;
+        }else{
+            displayAtk=realAtk;
+        }
         console.log("FightRole");
         console.log(`${this.name}受到${realAtk}伤害，当前血量${this.Hp}`);
-        this.playDamageFloat(`-${realAtk}`);
+        this.playDamageFloat(`-${displayAtk}`);
         if(this.Hp<=0){
             this.died=true;
             console.log(`${this.name}死亡`);
         }
     }
 
+    playHitEffect(){
+        let sideMap={'right':-1,'left':1}
+        let targetSite={
+            x:this.x+20*sideMap[this.side],
+            y:this.y+10,
+        }
+        // let sideMap={'right':-1,'left':1}
+        let startSite={
+            x:this.x+50*sideMap[this.side],
+            y:this.y+10,
+        }
+        let hitEffect=new HitEffect(startSite,targetSite,0.3,"飞剑",this.side);
+        this.HitEffectList.push(hitEffect);
+    }
     // onHit(){
 
     // }
 
     playDamageFloat(string){
-        let floatingText=new FloatingText(this.x,this.y,string);
+        let floatingText=new FloatingText(this.x,this.y,string,"damage");
         this.FloatingTextList.push(floatingText);
     }
 
     playSkillFloat(){
-        let floatingText=new FloatingText(this.x,this.y,this.skillName);
+        let floatingText=new FloatingText(this.x,this.y,this.skillName,"skill");
         this.FloatingTextList.push(floatingText);
+        return floatingText;
     }
 
     FloatingTextUpdate(dt:number){
@@ -129,6 +183,16 @@ export class FightRole{
             if(floatingText.disPlay==true){
                 this.FloatingTextList.splice(i,1);
                 i--;
+            }
+        }
+    }
+
+    HitEffectUpdate(dt:number){
+        for(let i=this.HitEffectList.length-1;i>=0;i--){
+            let hitEffect=this.HitEffectList[i];
+            hitEffect.update(dt);
+            if(hitEffect.disPlay==true){
+                this.HitEffectList.splice(i,1);
             }
         }
     }
@@ -180,6 +244,7 @@ export class FightRole{
 
 
     update(dt:number){
+        this.HitEffectUpdate(dt);
         this.FloatingTextUpdate(dt);
         if(this.needMove==true){
             this.move(dt);

@@ -1,10 +1,17 @@
 
 type RoleRow={
     id:string;
-    name:string;
-    templateID:string;
-    level:number;
-    exp:number;
+    baseInfo:{
+        name:string;
+        level:number;
+        exp:number;
+    },
+    equipList:[{id:string,up:boolean}];
+    skillList:[{id:string,up:boolean}];
+    // name:string;
+    // templateID:string;
+    // level:number;
+    // exp:number;
 }
 
 export class RolePanelData{
@@ -15,10 +22,17 @@ export class RolePanelData{
     // RoleLevel:number;
     // RoleExp:number;
     id:string;
-    name:string;
-    templateID:string;
-    level:number;
-    exp:number;
+    baseInfo:{
+        name:string;
+        level:number;
+        exp:number;
+    };
+    equipList:[{id:string,up:boolean}];
+    skillList:[{id:string,up:boolean}];
+    // name:string;
+    // templateID:string;
+    // level:number;
+    // exp:number;
 
 
     constructor(RoleInfo:RoleRow){
@@ -32,22 +46,25 @@ export class RolePanelData{
         // this.RoleLevel=RoleInfo.level;
         // this.RoleExp=RoleInfo.exp;
         this.id=RoleInfo.id;
-        this.name=RoleInfo.name;
-        this.templateID=RoleInfo.templateID;
-        this.level=RoleInfo.level;
-        this.exp=RoleInfo.exp;
+        this.baseInfo=RoleInfo.baseInfo;
+        this.equipList=RoleInfo.equipList;
+        this.skillList=RoleInfo.skillList;
+        // this.name=RoleInfo.name;
+        // this.templateID=RoleInfo.templateID;
+        // this.level=RoleInfo.level;
+        // this.exp=RoleInfo.exp;
     }
 
     setName(RoleName:string){
-        this.name=RoleName;
+        this.baseInfo.name=RoleName;
     }
 
     addLevel(AddLevel:number){
-        this.level+=AddLevel;
+        this.baseInfo.level+=AddLevel;
     }
 
     addExp(AddExp:number){
-        this.exp+=AddExp;
+        this.baseInfo.exp+=AddExp;
     }
 
     export(){
@@ -60,10 +77,9 @@ export class RolePanelData{
         // }
         let RoleInfo:RoleRow={
             id:this.id,
-            name:this.name,
-            templateID:this.templateID,
-            level:this.level,
-            exp:this.exp,
+            baseInfo:this.baseInfo,
+            equipList:this.equipList,
+            skillList:this.skillList,
         }
         return RoleInfo;
     }

@@ -1,10 +1,14 @@
 
 
 import { DataBaseService } from "../../GlobalService";
+// import { TemplateService } from "../../GlobalService";
+import { HintPopApp } from "../../HintPopSystem/Application/HintPopApp";
 
 
 import { RolePanel } from "./Assistant/RolePanel";
 import { RoleBoxList } from "./Assistant/RoleBoxList";
+import {FormationPop} from './Assistant/FormationPop';
+import { HintPop } from "../../HintPopSystem/Domain/HintPop";
 
 
 export class TrainApplication{
@@ -30,9 +34,10 @@ export class TrainApplication{
     //内部子类管理器
     private RolePanel:RolePanel;
     private RoleBoxList:RoleBoxList;
+    private FormationPop:FormationPop;
 
     //存储列阵角色id
-    private ChooseRoleID:string;
+    // private ChooseRoleID:string;
 
 
     //提供给外部调用的方法
@@ -45,54 +50,23 @@ export class TrainApplication{
         this.RoleBoxList.reBuildBoard();
     }
     UpFormationClick(RoleID:string){
-        this.ChooseRoleID=RoleID;
-        let formation=this.DataBaseService.getFormation();
-        this.TrainEntryUI.openFormationPop(formation);
+        this.FormationPop.setChooseRoleID(RoleID);
+        this.FormationPop.openFormationPop();
     }
-
-    FormationCellClick(CellID){
-        console.log("TrainApplication: 角色列阵",this.ChooseRoleID);
-        let formation=this.DataBaseService.getFormation();
-        let HadUp=false;
-        formation.forEach((role)=>{
-            if(role.id==this.ChooseRoleID){
-                HadUp=true;
-            }
-        })
-        if(HadUp==false){
-            formation.push({id:this.ChooseRoleID,site:this.CellToSite(CellID)});
+    DownRoleClick(){
+        let HadDown=this.FormationPop.DownRoleClick();
+        if(HadDown==true){
+            HintPopApp.instance.createHintPop("角色已下阵");
+        }else if(HadDown==false){
+            HintPopApp.instance.createHintPop("该角色未在阵容中！");
         }
-        this.DataBaseService.setFormation(formation);
-
         this.RoleBoxList.reBuildBoard();
-
-        // let formation=this.DataBaseService.getFormation();
-        this.TrainEntryUI.openFormationPop(formation);
+    }
+    FormationCellClick(CellID){
+        this.FormationPop.FormationCellClick(CellID);
+        this.RoleBoxList.reBuildBoard();
     }
 
-    CellToSite(CellID:number){
-        if(CellID>8){
-            console.error(`TrainApplication: 超过范围！`);
-        }
-        let site={x:CellID%3-3,y:Math.floor(CellID/3)+1};
-        return site;
-    }
-    // UpFormationClick(RoleID:string){
-    //     console.log("TrainApplication: 角色上阵",RoleID);
-    //     let formation=this.DataBaseService.getFormation();
-    //     let HadUp=false;
-    //     formation.forEach((role)=>{
-    //         if(role.id==RoleID){
-    //             HadUp=true;
-    //         }
-    //     })
-    //     if(HadUp==false){
-    //         formation.push({id:RoleID,site:{x:-1,y:2}});
-    //     }
-    //     this.DataBaseService.setFormation(formation);
-
-    //     this.RoleBoxList.reBuildBoard();
-    // }
 
 
     //注入App运行需要的东西
@@ -104,6 +78,7 @@ export class TrainApplication{
     OutLoadOver(){
             this.initChildBoxBoard();
             this.initChildRolePanel();
+            this.initChildFormationCells();
     }
 
     //组建内部子类管理器
@@ -112,6 +87,9 @@ export class TrainApplication{
     }
     initChildBoxBoard(){
         this.RoleBoxList=new RoleBoxList(this.DataBaseService,this.TrainEntryUI);
+    }
+    initChildFormationCells(){
+        this.FormationPop=new FormationPop(this.TrainEntryUI,HintPopApp.instance,this.DataBaseService);
     }
 
 

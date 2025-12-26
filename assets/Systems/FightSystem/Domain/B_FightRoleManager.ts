@@ -17,9 +17,12 @@ export class FightRoleManager{
     // dtTime=1;
     Lose:boolean=false;
 
+    private side:"left"|"right";
 
-    constructor(){
+
+    constructor(side){
         this.FightBoardSite=new FightBoardSite();
+        this.side=side;
     }
 
     // initFightBoard(){
@@ -54,15 +57,18 @@ export class FightRoleManager{
         let RoleDefense=FightInfo.defense;
         let RoleHP=FightInfo.hp;
 
+        let RoleClassType=FightInfo.classType;
+
         let RoleBoardSite={x:FightInfo.site.x,y:FightInfo.site.y};
         let RoleSite=this.FightBoardSite.getSite(RoleBoardSite);
 
         console.log(`FightRoleManager:从FightBoard获得RoleSite:${RoleSite}`);
 
         let newRole=new FightRole();
-        newRole.setBaseInfo(RoleName,1);
+        newRole.setBaseInfo(RoleName,1,RoleClassType);
         newRole.setFightInfo(RoleSpeed,RoleAttack,RoleDefense,RoleHP);
         newRole.setSite(RoleSite[0],RoleSite[1]);
+        newRole.setSide(this.side);
 
         this.RoleList.push(newRole);
     }
@@ -73,6 +79,11 @@ export class FightRoleManager{
         for (const role of this.RoleList){
             await role.Action(getDefenseList);
         }
+        await this.delay(1000);
+    }
+
+    delay(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     checkLose(){

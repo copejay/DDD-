@@ -17,6 +17,9 @@ export class FightEntry extends Component {
     @property(Prefab)
     FightBoxPrefab:Prefab=null;
 
+    @property(Prefab)
+    HitEffectPrefab:Prefab=null;
+
     @property(Node)
     FightBoardNode:Node=null;
 
@@ -31,7 +34,7 @@ export class FightEntry extends Component {
 
     start() {
         this.FightApp=FightApp.instance;
-        this.FightApp.initPrefabs(this.FightRolePrefab,this.FloatingTextPrefab,this.FightBoxPrefab);
+        this.FightApp.initPrefabs(this.FightRolePrefab,this.FloatingTextPrefab,this.FightBoxPrefab,this.HitEffectPrefab);
         // this.FightApp.createFightRole(this.FightBoardNode);
 
         this.CreateButton.on(Node.EventType.TOUCH_END,this.onCreateButtonClick,this);

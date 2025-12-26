@@ -70,7 +70,7 @@ export class RolePanelEntry extends Component {
 
     UpFormationClickCB(){
         if(this.EventBus!=null){
-            this.EventBus({type:"UpFormationClick",data:{id:this.RoleID}});
+            this.EventBus({callFrom:"RolePanelEntry",type:"UpFormationClick",data:{id:this.RoleID}});
         }
     }
     

@@ -3,6 +3,8 @@ import { RoleBoxViewFactory } from '../../Infrastructure';
 
 import { Prefab ,Node} from 'cc';
 
+import { RoleRow } from '../../../GlobalService';
+
 export class RoleBoxManager{
 
     private BoxFactory:RoleBoxViewFactory;
@@ -41,13 +43,13 @@ export class RoleBoxManager{
         }
     }
     //视图板子同步信息
-    BoxListSyncInfo(InfoList,upList){
+    BoxListSyncInfo(InfoList:RoleRow[],upList){
         for(let i=0;i<this.BoxList.length;i++){
             let Box=this.BoxList[i];
             let Info=InfoList[i];
 
-            Box.syncName(Info.name);
-            Box.syncLevel(Info.level);
+            Box.syncName(Info.baseInfo.name);
+            Box.syncLevel(Info.baseInfo.level);
             //对每一个格子设置回调，调用回调，唤起角色弹窗，传入点击角色id
             Box.setBoxInfo(Info.id,(ID)=>{
                 this.ClickCallBack(ID);

@@ -2,6 +2,7 @@
 import { FightRoleFactory } from "../Infrastructure";
 import { FightBoxFactory } from "../Infrastructure";
 import { FloatingTextFactory } from "../Infrastructure";
+import { HitEffectFactory } from "../Infrastructure";
 
 //系统组件
 import {FightManager} from "../Domain/A_FightManager";
@@ -27,10 +28,12 @@ export class FightApp{
     private FightRolePrefab;
     private FightBoxPrefab;
     private FloatingTextPrefab;
+    private HitEffectPrefab;
     //工厂
     private FightRoleFactory;
     private FightBoxFactory;
     private FloatingTextFactory;
+    private HitEffectFactory;
 
     //战斗管理
     private FightManager:FightManager;
@@ -42,10 +45,12 @@ export class FightApp{
 
 //系统接收注入
     //初始化进行注入
-    initPrefabs(FightRolePrefab,FloatingTextPrefab,FightBoxPrefab){
+    initPrefabs(FightRolePrefab,FloatingTextPrefab,FightBoxPrefab,HitEffectPrefab){
         this.FightRolePrefab=FightRolePrefab;
         this.FloatingTextPrefab=FloatingTextPrefab;
         this.FightBoxPrefab=FightBoxPrefab;
+        this.HitEffectPrefab=HitEffectPrefab;
+
         this.initFactory();
     }
     //接收预制体注入后，建立工厂
@@ -53,6 +58,7 @@ export class FightApp{
         this.FightRoleFactory=new FightRoleFactory(this.FightRolePrefab);
         this.FightBoxFactory=new FightBoxFactory(this.FightBoxPrefab);
         this.FloatingTextFactory=new FloatingTextFactory(this.FloatingTextPrefab);
+        this.HitEffectFactory=new HitEffectFactory(this.HitEffectPrefab);
     }
 
 //战斗系统建立后，获取数据开始新战斗
@@ -90,7 +96,7 @@ export class FightApp{
     //建立同步子类
     buildViewSyncer(BoardNode){
         //传入工厂等，子类分担工作
-        this.ViewSyncer=new ViewSyncer(this.FightManager,this.FightRoleFactory,this.FloatingTextFactory,this.FightBoxFactory,BoardNode);
+        this.ViewSyncer=new ViewSyncer(this.FightManager,this.FightRoleFactory,this.FloatingTextFactory,this.FightBoxFactory,this.HitEffectFactory,BoardNode);
         this.ChildSyncLoadOver=true;
     }
     //建立战斗数据获取类

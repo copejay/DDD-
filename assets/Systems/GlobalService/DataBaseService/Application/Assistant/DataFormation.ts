@@ -23,6 +23,10 @@ export class DataFormation{
     }
 
     setFormation(Formation:[]){
+        if(Formation.length>5){
+            console.error(`DataBaseService-DataFormation:角色列阵最多只能有5个角色`);
+            return;
+        }
         this.GameDB.formations.set("FightFormation",{id:"FightFormation",FormationRole:Formation});
 
     }
