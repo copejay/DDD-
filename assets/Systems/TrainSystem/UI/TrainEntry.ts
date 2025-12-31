@@ -11,6 +11,12 @@ import { TrainApplication } from '../Application/TrainApplication';
 
 import { RoleRow } from '../../GlobalService';
 
+type event={
+    callFrom:string,
+    type:string,
+    data:any
+}
+
 
 @ccclass('TrainEntry')
 export class TrainEntry extends Component {
@@ -57,7 +63,7 @@ export class TrainEntry extends Component {
         this.TrainApplication.UILoadOver();
     }
 
-    EventBus(event){
+    EventBus(event:event){
         if(event.callFrom=="RolePanelEntry"){
             if(event.type=="UpFormationClick"){
                 this.TrainApplication.UpFormationClick(event.data.id);

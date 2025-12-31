@@ -1,5 +1,5 @@
 
-
+import { BattleTime,battleDelay } from "./BattleTime";
 
 export class FloatingText{
 
@@ -13,8 +13,8 @@ export class FloatingText{
     moveSpeed:number=60;
 
     playTime:number=1;
-
     waitTime:number=0.2;
+
 
     disPlay:boolean=false;
 
@@ -28,19 +28,46 @@ export class FloatingText{
         this.type=type;
 
         if(type=="skill"){
-            this.setSkillType();
+            // this.setSkillType();
+            this.TypeScaleSpeed("skill");
+            this.y+=20;
             this.finished=new Promise(res=>{
                 this._resolve=res;
             });
+        }else{
+            // this.setDamageType();
+            this.TypeScaleSpeed("damage");
         }
     }
 
-    setSkillType(){
-        this.moveSpeed=130;
-        this.playTime=0.4;
-        this.waitTime=0.2;
-        this.y+=20;
+    TypeScaleSpeed(type){
+        if(type=="damage"){
+            let scale=BattleTime.scale;
+            this.moveSpeed=60*BattleTime.speed;
+            this.playTime=scale(1);
+            this.waitTime=scale(0.2);
+        }else{
+            let scale=BattleTime.scale;
+            this.moveSpeed=130*BattleTime.speed;
+            this.playTime=scale(0.4);
+            this.waitTime=scale(0.2);
+        }
     }
+
+    // setDamageType(){
+    //     let scale=BattleTime.scale;
+    //     this.moveSpeed=60*BattleTime.speed;
+    //     this.playTime=scale(1);
+    //     this.waitTime=scale(0.2);
+    // }
+
+    // setSkillType(){
+    //     let scale=BattleTime.scale;
+    //     this.moveSpeed=130*BattleTime.speed;
+    //     this.playTime=scale(0.4);
+    //     this.waitTime=scale(0.2);
+    //     this.y+=20;
+    // }
 
     onFinish() {
         // console.log(`HitEffect: 特效播放完成！`);
@@ -58,6 +85,7 @@ export class FloatingText{
     }
 
     update(dt:number){
+        // this.TypeScaleSpeed(this.type);
         this.move(dt);
         this.playTime-=dt;
         if(this.playTime<=0){

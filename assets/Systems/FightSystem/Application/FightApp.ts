@@ -1,12 +1,8 @@
-//工厂
-import { FightRoleFactory } from "../Infrastructure";
-import { FightBoxFactory } from "../Infrastructure";
-import { FloatingTextFactory } from "../Infrastructure";
-import { HitEffectFactory } from "../Infrastructure";
+
 
 //系统组件
 import {FightManager} from "../Domain/A_FightManager";
-import { ViewSyncer } from "./Assistant/ViewSyncer";
+// import { ViewSyncer } from "./Assistant/ViewSyncer";
 import { FightData } from "./Assistant/FightData";
 
 //其它系统服务
@@ -24,41 +20,20 @@ export class FightApp{
         return this._instance;
     }
 
-    //预制体
-    private FightRolePrefab;
-    private FightBoxPrefab;
-    private FloatingTextPrefab;
-    private HitEffectPrefab;
-    //工厂
-    private FightRoleFactory;
-    private FightBoxFactory;
-    private FloatingTextFactory;
-    private HitEffectFactory;
-
     //战斗管理
     private FightManager:FightManager;
 
+    //战斗前端UI
+    private FightEntry;
+
     //子类
-    private ViewSyncer:ViewSyncer;
+    // private ViewSyncer:ViewSyncer;
     private FightData:FightData;
-    private ChildSyncLoadOver:boolean=false;
+    // private ChildSyncLoadOver:boolean=false;
+    private FightRuing:boolean=false;
 
-//系统接收注入
-    //初始化进行注入
-    initPrefabs(FightRolePrefab,FloatingTextPrefab,FightBoxPrefab,HitEffectPrefab){
-        this.FightRolePrefab=FightRolePrefab;
-        this.FloatingTextPrefab=FloatingTextPrefab;
-        this.FightBoxPrefab=FightBoxPrefab;
-        this.HitEffectPrefab=HitEffectPrefab;
-
-        this.initFactory();
-    }
-    //接收预制体注入后，建立工厂
-    initFactory(){
-        this.FightRoleFactory=new FightRoleFactory(this.FightRolePrefab);
-        this.FightBoxFactory=new FightBoxFactory(this.FightBoxPrefab);
-        this.FloatingTextFactory=new FloatingTextFactory(this.FloatingTextPrefab);
-        this.HitEffectFactory=new HitEffectFactory(this.HitEffectPrefab);
+    initFightEntry(FightEntry){
+        this.FightEntry=FightEntry;
     }
 
 //战斗系统建立后，获取数据开始新战斗
@@ -71,33 +46,45 @@ export class FightApp{
             return;
         }
         this.FightManager.NewFight(Formation);
-        this.ViewSyncer.BeginSyncRole();
+        // this.FightRuing=true;
+        // this.ViewSyncer.BeginSyncRole();
+    }
+
+    //设置战斗速度
+    FightSpeedClick(){
+        let speed=1;
+        if(this.FightManager.FightSpeed==1){
+            speed=3;
+        }
+        this.setFightSpeed(speed);
+    }
+
+    setFightSpeed(num){
+        this.FightManager.setFightSpeed(num);
     }
 
 
 //战斗系统提示回调 
     fightBeginCB(){
         HintPopApp.instance.createHintPop("战斗开始");
+        this.FightRuing=true;
+        this.FightEntry.openFightBoard();
     }
     fightOverCB(){
         HintPopApp.instance.createHintPop("战斗结束");
+        this.FightRuing=false;
+        this.FightEntry.closeFightBoard();
     }
 
 //创建战斗系统
-    createFightSystem(BoardNode){
+    buildFightSystem(){
         this.buildFightManager();
-        this.buildViewSyncer(BoardNode);
+        // this.buildViewSyncer(BoardNode);
         this.buildFightData();
     }
     //建立战斗管理数据体
     buildFightManager(){
         this.FightManager= new FightManager(this.fightBeginCB.bind(this),this.fightOverCB.bind(this));
-    }
-    //建立同步子类
-    buildViewSyncer(BoardNode){
-        //传入工厂等，子类分担工作
-        this.ViewSyncer=new ViewSyncer(this.FightManager,this.FightRoleFactory,this.FloatingTextFactory,this.FightBoxFactory,this.HitEffectFactory,BoardNode);
-        this.ChildSyncLoadOver=true;
     }
     //建立战斗数据获取类
     buildFightData(){
@@ -107,9 +94,12 @@ export class FightApp{
 
 
     update(dt:number){
-        if(this.ChildSyncLoadOver==true){
-            // this.FightRoleManager.update(dt);
-            this.ViewSyncer.update(dt);
+        if(this.FightRuing==true){
+            this.FightManager.Update(dt);
+            let Roles=this.FightManager.exportRoleList();
+            let HintEffects=this.FightManager.exportHitEffectList();
+            let BoardBoxList=this.FightManager.exportBoardBoxList();
+            this.FightEntry.Sync(Roles,HintEffects,BoardBoxList);
         }
     }
 

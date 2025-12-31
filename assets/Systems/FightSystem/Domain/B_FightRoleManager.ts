@@ -3,6 +3,7 @@ import { FightBoardSite } from "./FightBoardSite";
 import { FightRole } from "./FightRole";
 // import { FightBox } from "./FightBox";
 
+import { BattleTime ,battleDelay} from "./BattleTime";
 
 export class FightRoleManager{
 
@@ -79,12 +80,13 @@ export class FightRoleManager{
         for (const role of this.RoleList){
             await role.Action(getDefenseList);
         }
-        await this.delay(1000);
+        // await this.delay(1000);
+        await battleDelay(1000);
     }
 
-    delay(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    // delay(ms: number) {
+    //     return new Promise(resolve => setTimeout(resolve, ms));
+    // }
 
     checkLose(){
         if(this.RoleList.length==0){
@@ -110,6 +112,12 @@ export class FightRoleManager{
     getDefenseList(){
         return this.RoleList;
 
+    }
+
+    Update(dt){
+        this.RoleList.forEach((role)=>{
+            role.update(dt);
+        })
     }
 
 

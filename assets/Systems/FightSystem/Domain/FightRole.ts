@@ -2,6 +2,8 @@
 import { FloatingText } from "./FloatingText";
 import { HitEffect } from "./HitEffect";
 
+import { BattleTime, battleDelay } from "./BattleTime";
+
 export class FightRole{
 
     //不变量
@@ -86,7 +88,8 @@ export class FightRole{
     }
 
     async Action(getDefenseList:(range:number)=>FightRole[]){
-        await this.delay(500);
+        // await this.delay(500);
+        await battleDelay(500);
         let skillFloat=this.playSkillFloat();
         await skillFloat.finished;
         let defenseList=getDefenseList(1);
@@ -97,9 +100,9 @@ export class FightRole{
         );
     }
 
-    delay(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    // delay(ms: number) {
+    //     return new Promise(resolve => setTimeout(resolve, ms));
+    // }
 
     attack(){
         return this.Atk;
@@ -113,7 +116,8 @@ export class FightRole{
             right:1,
         }
         this.x+=backLong*sideMap[this.side];
-        await this.delay(100);
+        // await this.delay(100);
+        await battleDelay(100);
         this.x=this.beginX;
     }
 

@@ -18,6 +18,8 @@ interface FightFormation{
     RightFightInfo:{}[];
 }
 
+import { BattleTime } from "./BattleTime";
+
 export class FightManager{
 
 //下属管理
@@ -37,6 +39,9 @@ export class FightManager{
     newFightBeginCallBack:()=>void;
     oldFightOverCallBack:()=>void;
 
+    //战斗倍速
+    FightSpeed:number=1;
+
     //token进行最后一次的识别
     private renewToken = 0;
     //锁机制进行通知
@@ -55,16 +60,45 @@ export class FightManager{
         this.LoadComponent();
     }
 
+    setFightSpeed(num){
+        this.FightSpeed=num;
+        BattleTime.setSpeed(num);
+    }
+
 //对外接口
+
+    Update(dt){
+        this.LeftFightRoleManager.Update(dt);
+        this.RightFightRoleManager.Update(dt);
+    }
+
+
     exportRoleList(){
         return [...this.LeftFightRoleManager.getRoleList(),...this.RightFightRoleManager.getRoleList()];
     }
     exportBoardBoxList(){
         return this.FightBoardManager.BoardBoxList;
     }
+    exportHitEffectList(){
+        let RoleList=this.exportRoleList()
+        let newHitEffectList=[];
+        RoleList.forEach((role)=>{
+            if(role.HitEffectList.length!=0){
+                newHitEffectList=newHitEffectList.concat(role.HitEffectList);
+            }
+        })
+        return newHitEffectList;
+    }
+
     exportFloatingTextList(){
         
     }
+        // this.FightRoleList.forEach((role)=>{
+        // this.RoleAt.RoleList.forEach((role)=>{
+        //     if(role.HitEffectList.length!=0){
+        //         newHitEffectList=newHitEffectList.concat(role.HitEffectList);
+        //     }
+        // })
 
 
     async NewFight(FightFormation){

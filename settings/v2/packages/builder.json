@@ -5,12 +5,16 @@
     "displayRatio": 1,
     "background": {
       "color": {
-        "x": 0.8705882352941177,
-        "y": 0.9490196078431372,
-        "z": 0.9686274509803922,
+        "x": 1,
+        "y": 1,
+        "z": 1,
         "w": 1
       },
-      "type": "color"
+      "type": "default",
+      "image": "project://settings/huoqiu.png"
+    },
+    "logo": {
+      "type": "none"
     }
   },
   "bundleConfig": {

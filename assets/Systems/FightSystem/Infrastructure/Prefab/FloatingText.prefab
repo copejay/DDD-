@@ -167,7 +167,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "422f2db4-1d8f-41bd-86b9-1ed7e5f1e1d4@f9941",
+      "__uuid__": "3c25c0d2-aca6-452a-8405-c6df952da6b4@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -266,8 +266,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 77.82601810555802,
-      "height": 24.68
+      "width": 65.18834842129834,
+      "height": 20.9
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -305,8 +305,8 @@
     "_string": "如来神掌",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 18,
-    "_fontSize": 18,
+    "_actualFontSize": 15,
+    "_fontSize": 15,
     "_fontFamily": "Arial",
     "_lineHeight": 0,
     "_overflow": 0,

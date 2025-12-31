@@ -1,5 +1,5 @@
 
-
+import { BattleTime,battleDelay } from "./BattleTime";
 
 export class HitEffect{
 
@@ -13,8 +13,9 @@ export class HitEffect{
     EffectName:string="命中特效";
 
     moveSpeed:number=100;
-
     playTime:number;
+
+    scaleTime:number;
 
     // waitTime:number=0;
 
@@ -42,9 +43,15 @@ export class HitEffect{
         this.targetY=targetSite.y;
         this.playTime=playTime;
 
+        this.scaleSpeed();
         this.finished=new Promise(res=>{
             this._resolve=res;
         });
+    }
+
+    scaleSpeed(){
+        this.moveSpeed*=BattleTime.speed;
+        this.scaleTime=BattleTime.scale(this.playTime);
     }
 
     // move(dt:number){
@@ -54,9 +61,11 @@ export class HitEffect{
     //     this.x+=this.moveSpeed*dt;
     // }
     move(dt: number) {
+        // this.scaleSpeed();
+
         this.elapsed += dt;
 
-        const t = Math.min(this.elapsed / this.playTime, 1);
+        const t = Math.min(this.elapsed / this.scaleTime, 1);
 
         this.x = this.sx + (this.targetX - this.sx) * t;
         this.y = this.sy + (this.targetY - this.sy) * t;
